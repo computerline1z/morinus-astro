@@ -1,2 +1,12 @@
 syntax: glob
 .DS_Store
+\.idea
+\.Python
+bin
+binw
+include
+install_pythonw
+lib
+Python\.app
+*.pyc
+src/SWEP
