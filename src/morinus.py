@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding=utf-8
 
 
 #Morinus, Astrology program
@@ -17,6 +18,8 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+# TODO: Synastry se zacyklí při vyvolání
+# FIXIT: Synastry se zacyklí při vyvolání - při nejbližším release
 
 import os
 import sys
@@ -43,9 +46,6 @@ class Morinus(wx.App):
 
 		return True
 
- 
+
 app = Morinus(0)
 app.MainLoop()
-
-
-
