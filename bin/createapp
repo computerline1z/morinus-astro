@@ -2,21 +2,23 @@
 #
 # createapp.sh
 #
+#   tasks:   
+#       - creates app bundle for Python morinus script
+#       - creates dmg volume for distribution
+#
+#   options:
+#       -- clean    cleanes the distribution files
+#       -- create   creates the distribution
+#
 # Created by Vasek (vaclav@spirhanzl.cz) on 2012-07-13.
 # Based on bash script template from halfgaar 
 #       http://blog.bigsmoke.us/2011/01/05/bash-script-template
 #
-# Template bash script, for when you need something overengineerd :)
 
 #
 # set -n # Uncomment to check script syntax, without execution.
-# # NOTE: Do not forget to put the comment back in or
-# # the shell script will not execute!
 # set -x # Uncomment to debug this shell script
 #
- 
-# Hack prevention
-# PATH="/sbin:/usr/sbin:/bin:/usr/bin"
  
 # Error codes
 wrong_params=5
@@ -86,13 +88,31 @@ dohelp()
   echo ""
   echo "createapp script"
   echo ""
-  echo "    creates app bundle for morinus python program"
+  echo "    creates app bundle for morinus python script"
+  echo ""
+  echo "    options:"
+  echo "       -- clean    cleanes the distribution files"
+  echo "       -- create   creates the distribution"
+  echo "       -- help     displays help"
+  echo "       -- revision revision number"
+  echo "       -- rev      revision number"
+  echo ""
+  echo "    examples:"
+  echo "        createapp --create --rev 6.2.0"
+  echo "            creates app bundle with revision number 6.2.0"
   echo ""
  
-  # Exit because you don't want the script to do anything after displaying help
-  exit 
 }
 
+doclean()
+{
+  # clean distribution
+  echo "--> cleaning distribution files ..."
+  python setup.py clean
+  rm -rfd build dist
+}
+
+# options check
 prev_params=$* 
 while [ -n "$*" ]; do
   flag=$1
@@ -101,15 +121,39 @@ while [ -n "$*" ]; do
   case "$flag" in
     "--help")
       dohelp
+      exit
+    ;;
+    "--clean")
+      doclean
+      exit
+    ;;
+    "--create")
+      opt_create="1"
+    ;;
+    "--revision" | "--rev")
+      opt_revision="$value"
+      shift
+    ;;
+    "--")
+      break
+    ;;
+    *)
+      end "unknown option $flag. Type --help" "$wrong_params"
     ;;
   esac
  
   shift
 done
  
-# if [ -z "$option1" ]; then
-# end "option1 not given" $wrong_params
-# fi
+if [ -z "$opt_create" ]; then
+  end "--create or --clean not given" $wrong_params
+fi
+
+if [ "$opt_revision" == "" ]; then
+  end "no revision value given" $wrong_params
+fi
+
+echo "--> creates distribution, revision: $opt_revision"
 
 #
 #   --- start of main script ---
@@ -120,13 +164,10 @@ if [ ! -f "./setup.py" ]; then
     end "File setup.py does not exist in current working directory" 1
 fi
 
-# clean distribution
-python setup.py clean
-rm -rfd build dist
 
 # build distribution
 echo "--> setup.py with params = $prev_params"
-python setup.py py2app $prev_params
+python setup.py py2app
 
 # copy Python frameworks - dirty hack :-)
 echo ""

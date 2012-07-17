@@ -167,7 +167,7 @@ class MFrame(wx.Frame):
 		self.mhoros.Append(self.ID_Load, mtexts.menutxts['HMLoad'], mtexts.menutxts['HMLoadDoc'])
 		self.mhoros.Append(self.ID_Save, mtexts.menutxts['HMSave'], mtexts.menutxts['HMSaveDoc'])
 		self.mhoros.Append(self.ID_SaveAsBitmap, mtexts.menutxts['HMSaveAsBmp'], mtexts.menutxts['HMSaveAsBmpDoc'])
-		# self.mhoros.Append(self.ID_Synastry, mtexts.menutxts['HMSynastry'], mtexts.menutxts['HMSynastryDoc'])
+		self.mhoros.Append(self.ID_Synastry, mtexts.menutxts['HMSynastry'], mtexts.menutxts['HMSynastryDoc'])
 		self.mhoros.Append(self.ID_FindTime, mtexts.menutxts['HMFindTime'], mtexts.menutxts['HMFindTimeDoc'])
 		self.mhoros.Append(self.ID_Ephemeris, mtexts.menutxts['HMEphemeris'], mtexts.menutxts['HMEphemerisDoc'])
 		self.mhoros.AppendSeparator()
@@ -304,7 +304,7 @@ class MFrame(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onLoad, id=self.ID_Load)
 		self.Bind(wx.EVT_MENU, self.onSave, id=self.ID_Save)
 		self.Bind(wx.EVT_MENU, self.onSaveAsBitmap, id=self.ID_SaveAsBitmap)
-		# self.Bind(wx.EVT_MENU, self.onSynastry, id=self.ID_Synastry)
+		self.Bind(wx.EVT_MENU, self.onSynastry, id=self.ID_Synastry)
 		self.Bind(wx.EVT_MENU, self.onFindTime, id=self.ID_FindTime)
 		self.Bind(wx.EVT_MENU, self.onEphemeris, id=self.ID_Ephemeris)
 		self.Bind(wx.EVT_MENU, self.onClose, id=self.ID_Close)
@@ -2548,7 +2548,7 @@ class MFrame(wx.Frame):
 		info.Copyright = mtexts.txts['FreeSoft']
 		info.Description = mtexts.txts['Description']+str(astrology.swe_version())
 		info.WebSite = 'http://sites.google.com/site/pymorinus/', 'http://sites.google.com/site/pymorinus/'
-		info.Developers = ['Robert Nagy (Hungary); robert.pluto@gmail.com (programming and astrology)\nPhilippe Epaud(France); philipeau@free.fr (french translation)\nMargherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)\nMartin Gansten (Sweden); http://www.martingansten.com/ (astrology)\nJaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)\nRoberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)\nPetr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)\nEndre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)\nDenis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)\nVáclav Jan Špirhanzl (Czech Rep.); vjs.morinus@gmail.com (MacOS version)']
+		info.Developers = [u'Robert Nagy (Hungary); robert.pluto@gmail.com (programming and astrology)\nPhilippe Epaud(France); philipeau@free.fr (french translation)\nMargherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)\nMartin Gansten (Sweden); http://www.martingansten.com/ (astrology)\nJaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)\nRoberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)\nPetr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)\nEndre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)\nDenis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)\nVáclav Jan Špirhanzl (Czech Rep.); vjs.morinus@gmail.com (MacOS version)']
 		info.License = mtexts.licensetxt
 		
 		wx.AboutBox(info)
@@ -2596,7 +2596,9 @@ class MFrame(wx.Frame):
 		self.mhoros.Enable(self.ID_Data, bEnable)
 		self.mhoros.Enable(self.ID_Save, bEnable)
 		self.mhoros.Enable(self.ID_SaveAsBitmap, bEnable)
-		# self.mhoros.Enable(self.ID_Synastry, bEnable)
+		# FIXIT: find the bug with endless loop, after that enable menu
+		#self.mhoros.Enable(self.ID_Synastry, bEnable)
+		self.mhoros.Enable(self.ID_Synastry, False)
 		self.mhoros.Enable(self.ID_Close, bEnable)
 		self.mtable.Enable(self.ID_Positions, bEnable)
 		self.mtable.Enable(self.ID_TAlmutens, bEnable)
@@ -2620,14 +2622,16 @@ class MFrame(wx.Frame):
 		self.mtable.Enable(self.ID_Profections, bEnable)
 		self.mtable.Enable(self.ID_CustomerSpeculum, bEnable)
 		self.mtable.Enable(self.ID_PrimaryDirs, bEnable)
-		self.mcharts.Enable(self.ID_Transits, bEnable)
-		self.mcharts.Enable(self.ID_Revolutions, bEnable)
-		self.mcharts.Enable(self.ID_SunTransits, bEnable)
-		self.mcharts.Enable(self.ID_SecondaryDirs, bEnable)
-		self.mcharts.Enable(self.ID_Elections, bEnable)
-		self.mcharts.Enable(self.ID_SquareChart, bEnable)
-		self.mcharts.Enable(self.ID_ProfectionsChart, bEnable)
-		self.mcharts.Enable(self.ID_MundaneChart, bEnable)
+
+		# FIXIT: find the bug with endless loop, after that enable menu ; False to bEnable
+		self.mcharts.Enable(self.ID_Transits, False)
+		self.mcharts.Enable(self.ID_Revolutions, False)
+		self.mcharts.Enable(self.ID_SunTransits, False)
+		self.mcharts.Enable(self.ID_SecondaryDirs, False)
+		self.mcharts.Enable(self.ID_Elections, False)
+		self.mcharts.Enable(self.ID_SquareChart, False)
+		self.mcharts.Enable(self.ID_ProfectionsChart, False)
+		self.mcharts.Enable(self.ID_MundaneChart, False)
 
 
 	def enableOptMenus(self, bEnable):
