@@ -1,0 +1,55 @@
+Readme file to Mac OSX version of Morinus Python program.
+
+Morinus is an easy to use astrology software under GPLv3 license. It uses the swiss ephemeris so it's very accurate (5000BC - 5000AD). 
+It runs on every Operating System where Python and wxPython are available (Linux, Unix, Windows, MacOS).
+
+This Mac OSX version is based on Morinus 6.2 for MS Windows. This version has been tested on Mac OSX Lion (version 10.7.4), there is no guarantee that program will run on other Mac OSX versions (10.5.x, 10.6.x). I have no machine with these operating system versions :-(
+
+
+Installation
+
+	- download the latest dmg file from http://code.google.com/p/morinus-astro/downloads/list
+	- double click installed dmg file, new volume is mounted (name = morinus)
+	- double click volume "morinus", volume is opened in Finder
+	- drag and drop "Morinus" application bundle into your favorite destination ( Desktop, Application folder, ...), avoid to use ~/Documents folder for installation.
+
+Package contains
+
+  * Morinus - application bundle, Mac OSX
+  * README - this file
+  
+Used files on Mac
+
+  * TODO: options path !!!
+  
+Author and contributors
+	
+Author - Robert Nagy, robert.pluto@gmail.com (programming and astrology)
+
+Developers
+  * Philippe Epaud(France); philipeau@free.fr (french translation)
+  * Margherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)
+
+  * Martin Gansten (Sweden); http://www.martingansten.com/ (astrology)
+
+  * Jaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)
+
+  * Roberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)
+
+  * Petr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)
+
+  * Endre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)
+
+  * Denis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)
+
+
+Maintainer Mac OSX - Vaclav Spirhanzl (Czech Republic), vjs.morinus@gmail.com
+
+Program's Website - https://sites.google.com/site/pymorinus/
+
+Releases
+
+6.2.0r00
+- first Mac OSX release as standalone application
+- following program functions are disabled (Synastry and all Charts), the reason is bug in program Mac OSX version, on MS Windows runs everything without problems
+- there are no swiss ephemeris data files in application bundle
