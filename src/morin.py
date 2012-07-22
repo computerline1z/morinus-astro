@@ -2623,14 +2623,14 @@ class MFrame(wx.Frame):
 		self.mtable.Enable(self.ID_CustomerSpeculum, bEnable)
 		self.mtable.Enable(self.ID_PrimaryDirs, bEnable)
 
+		self.mcharts.Enable(self.ID_Transits, bEnable)
+		self.mcharts.Enable(self.ID_Revolutions, bEnable)
+		self.mcharts.Enable(self.ID_SunTransits, bEnable)
+		self.mcharts.Enable(self.ID_SecondaryDirs, bEnable)
+		self.mcharts.Enable(self.ID_Elections, bEnable)
+		self.mcharts.Enable(self.ID_SquareChart, bEnable)
+		self.mcharts.Enable(self.ID_ProfectionsChart, bEnable)
 		# FIXIT: find the bug with endless loop, after that enable menu ; False to bEnable
-		self.mcharts.Enable(self.ID_Transits, False)
-		self.mcharts.Enable(self.ID_Revolutions, False)
-		self.mcharts.Enable(self.ID_SunTransits, False)
-		self.mcharts.Enable(self.ID_SecondaryDirs, False)
-		self.mcharts.Enable(self.ID_Elections, False)
-		self.mcharts.Enable(self.ID_SquareChart, False)
-		self.mcharts.Enable(self.ID_ProfectionsChart, False)
 		self.mcharts.Enable(self.ID_MundaneChart, False)
 
 

@@ -13,7 +13,7 @@ Installation
 	- double click volume "morinus", volume is opened in Finder
 	- drag and drop "Morinus" application bundle into your favorite destination ( Desktop, Application folder, ...), avoid to use ~/Documents folder for installation.
 
-Package contains
+Package content
 
   * Morinus - application bundle, Mac OSX
   * README - this file
@@ -48,6 +48,12 @@ Maintainer Mac OSX - Vaclav Spirhanzl (Czech Republic), vjs.morinus@gmail.com
 Program's Website - https://sites.google.com/site/pymorinus/
 
 Releases
+
+6.2.0r01 - 2012 July 22
+- fix - Charts functions enabled (Transits, Revolutions, Sun-transits, Secondary directions, Elections, Square, Profections)
+- stil open
+-- Chart function Mundane disabled
+-- Synastry disabled
 
 6.2.0r00
 - first Mac OSX release as standalone application

@@ -1444,7 +1444,10 @@ class GraphChart:
 		else:
 			w2, h2 = self.fntMorinus.getsize(common.common.fortune)
 
+		# FIXIT: i-counter is temporary solution for mysterious behavior oc overlapping function
+		i = 0
 		while (self.overlap(x1, y1, w1, h1, x2, y2, w2, h2)):
+			i += 1  # FIXIT: linked to i-counter
 			if not forward:
 				pshift[mixed[p1]] -= 0.1
 			pshift[mixed[p2]] += 0.1
@@ -1457,10 +1460,19 @@ class GraphChart:
 			if not shifted:
 				shifted = True
 
+			# FIXIT: linked to i-counter, entire if-condition
+			if i > 500:
+				shifted = False
+				break
+
 		return shifted
 
 
 	def overlap(self, x1, y1, w1, h1, x2, y2, w2, h2):
+		# FIXIT: temporary patch for Mac OSX
+		#if  wx.Platform == "__WXMAC__":		 # (* vjs *)
+		#	return False						# (* vjs *)
+
 		xoverlap = (x1 <= x2 and x2 <= x1+w1) or (x2 <= x1 and x1 <= x2+w2)
 		yoverlap = (y1 <= y2 and y2 <= y1+h1) or (y2 <= y1 and y1 <= y2+h2)
 
