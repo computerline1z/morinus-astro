@@ -6,7 +6,7 @@ It runs on every Operating System where Python and wxPython are available (Linux
 This Mac OSX version is based on Morinus 6.2 for MS Windows. This version has been tested on Mac OSX Lion (version 10.7.4), there is no guarantee that program will run on other Mac OSX versions (10.5.x, 10.6.x). I have no machine with these operating system versions :-(
 
 
-Installation
+Installation on Mac OSX
 
 	- download the latest dmg file from http://code.google.com/p/morinus-astro/downloads/list
 	- double click installed dmg file, new volume is mounted (name = morinus)
@@ -48,6 +48,11 @@ Maintainer Mac OSX - Vaclav Spirhanzl (Czech Republic), vjs.morinus@gmail.com
 Program's Website - https://sites.google.com/site/pymorinus/
 
 Releases
+
+6.2.0r02 - 2012 July 23
+- added standard Mac behavior in About menu and Quit menu
+- fixed - the bug in about menu (Mac OSX)
+- fixed - the bug in Colors picker dialog - replacing Std. Button with GenButton from wx.lib.buttons (limitation of wx framework on all platforms - see. https://groups.google.com/forum/?fromgroups#!msg/wxpython-users/cF6TSH-ywRI/exkF76HzYKwJ)
 
 6.2.0r01 - 2012 July 22
 - fix - Charts functions enabled (Transits, Revolutions, Sun-transits, Secondary directions, Elections, Square, Profections)

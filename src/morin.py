@@ -158,8 +158,8 @@ class MFrame(wx.Frame):
 		self.nodebase = 1070
 
 		#Help-menu
-		self.ID_Help = 180
-		self.ID_About = 181
+		self.ID_Help = 190
+		self.ID_About = 191
 
 		#Horoscope-menu
 		self.mhoros.Append(self.ID_New, mtexts.menutxts['HMNew'], mtexts.menutxts['HMNewDoc'])
@@ -287,17 +287,13 @@ class MFrame(wx.Frame):
 
 		#Help-menu
 		self.mhelp.Append(self.ID_Help, mtexts.menutxts['HEMHelp'], mtexts.menutxts['HEMHelpDoc'])
-		self.mhelp.Append(self.ID_About, mtexts.menutxts['HEMAbout'], mtexts.menutxts['HEMAboutDoc'])
-
-
-		menubar.Append(self.mhoros, mtexts.menutxts['MHoroscope'])
-		menubar.Append(self.mtable, mtexts.menutxts['MTable'])
-		menubar.Append(self.mcharts, mtexts.menutxts['MCharts'])
-		menubar.Append(self.moptions, mtexts.menutxts['MOptions'])
-		menubar.Append(self.mhelp, mtexts.menutxts['MHelp'])
-		self.SetMenuBar(menubar)
-
-		self.CreateStatusBar()
+		if not 'wxMac' in wx.PlatformInfo:
+			self.mhelp.Append(self.ID_About, mtexts.menutxts['HEMAbout'], mtexts.menutxts['HEMAboutDoc'])
+		else:
+			mnText = mtexts.menutxts['HEMAbout'].split('\t')
+			aboutMenuItem = self.mhelp.Append(self.ID_About,
+									mnText[0] + ' Morinus',
+									mtexts.menutxts['HEMAboutDoc'])
 
 		self.Bind(wx.EVT_MENU, self.onNew, id=self.ID_New)
 		self.Bind(wx.EVT_MENU, self.onData, id=self.ID_Data)
@@ -310,7 +306,7 @@ class MFrame(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onClose, id=self.ID_Close)
 		self.Bind(wx.EVT_MENU, self.onExit, id=self.ID_Exit)
 
-		if os.name == 'mac' or os.name == 'posix':
+		if 'wxMac' in wx.PlatformInfo:
 			self.Bind(wx.EVT_PAINT, self.onPaint)
 		else:
 			self.Bind(wx.EVT_ERASE_BACKGROUND, self.onEraseBackground)
@@ -380,11 +376,25 @@ class MFrame(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onReload, id=self.ID_Reload)
 
 		self.Bind(wx.EVT_MENU, self.onHelp, id=self.ID_Help)
-		self.Bind(wx.EVT_MENU, self.onAbout, id=self.ID_About)
+		if 'wxMac' in wx.PlatformInfo:
+			wx.App.SetMacAboutMenuItemId(aboutMenuItem.GetId())
+			self.Bind(wx.EVT_MENU, self.onAbout, aboutMenuItem)
+			wx.App.SetMacExitMenuItemId(self.ID_Exit)
+		else:
+			self.Bind(wx.EVT_MENU, self.onAbout, id=self.ID_About)
 
 		self.Bind(wx.EVT_CLOSE, self.onExit)
 
 		self.splash = True
+
+		menubar.Append(self.mhoros, mtexts.menutxts['MHoroscope'])
+		menubar.Append(self.mtable, mtexts.menutxts['MTable'])
+		menubar.Append(self.mcharts, mtexts.menutxts['MCharts'])
+		menubar.Append(self.moptions, mtexts.menutxts['MOptions'])
+		menubar.Append(self.mhelp, mtexts.menutxts['MHelp'])
+		self.SetMenuBar(menubar)
+
+		self.CreateStatusBar()
 
 		self.enableMenus(False)
 
@@ -2623,14 +2633,14 @@ class MFrame(wx.Frame):
 		self.mtable.Enable(self.ID_CustomerSpeculum, bEnable)
 		self.mtable.Enable(self.ID_PrimaryDirs, bEnable)
 
-		self.mcharts.Enable(self.ID_Transits, bEnable)
-		self.mcharts.Enable(self.ID_Revolutions, bEnable)
-		self.mcharts.Enable(self.ID_SunTransits, bEnable)
-		self.mcharts.Enable(self.ID_SecondaryDirs, bEnable)
-		self.mcharts.Enable(self.ID_Elections, bEnable)
-		self.mcharts.Enable(self.ID_SquareChart, bEnable)
-		self.mcharts.Enable(self.ID_ProfectionsChart, bEnable)
-		# FIXIT: find the bug with endless loop, after that enable menu ; False to bEnable
+		# FIXIT: find the bug with endless loop, after fixing the bugs -> enable menu ; False to bEnable
+		self.mcharts.Enable(self.ID_Transits, False)
+		self.mcharts.Enable(self.ID_Revolutions, False)
+		self.mcharts.Enable(self.ID_SunTransits, False)
+		self.mcharts.Enable(self.ID_SecondaryDirs, False)
+		self.mcharts.Enable(self.ID_Elections, False)
+		self.mcharts.Enable(self.ID_SquareChart, False)
+		self.mcharts.Enable(self.ID_ProfectionsChart, False)
 		self.mcharts.Enable(self.ID_MundaneChart, False)
 
 
