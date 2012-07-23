@@ -108,7 +108,7 @@ doclean()
 {
   # clean distribution
   echo "--> cleaning distribution files ..."
-  python setup.py clean
+  # python setup.py clean
   rm -rfd build dist
 }
 
