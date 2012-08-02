@@ -21,7 +21,7 @@ cp ./doc/README /Volumes/morinus/
 
 hdiutil eject /Volumes/morinus/
 
-DMGNAME="$TMPDIRDMG/morinus-6.2.0-r02.dmg"
+DMGNAME="$TMPDIRDMG/morinus-6.2.0-r03.dmg"
 echo $DMGNAME
 hdiutil convert $TMPDIRDMG/morin-big.dmg -format UDZO -imagekey zlib-level=9 -o $DMGNAME
 

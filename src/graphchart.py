@@ -1,5 +1,5 @@
 import wx
-import Image, ImageDraw, ImageFont
+import Image, ImageDraw, ImageFont      # PIL package
 import math
 import astrology
 import chart, houses, planets, fortune
@@ -37,7 +37,7 @@ class GraphChart:
 		self.deg01510len = 0.01
 		self.retrdiff = 0.01
 		if self.chart2 == None:
-			if self.planetaryday and self.options.showfixstars != options.Options.NONE: #If planetaryday is True => radix chart
+			if self.planetaryday and self.options.showfixstars != options.Options.NONE:  #If planetaryday is True => radix chart
 				self.symbolSize = self.maxradius/16
 				self.signSize = self.maxradius/20
 				self.planetsectorlen = 0.15
@@ -48,7 +48,7 @@ class GraphChart:
 				self.rHousesectorlen = 0.06
 				self.rAntis = self.maxradius*0.90
 				self.rAntisLines = self.maxradius*0.86
-				self.rFixstars = self.maxradius*0.88#84
+				self.rFixstars = self.maxradius*0.88  #84
 				self.r30 = self.maxradius*0.83
 
 				self.rOuterLine = self.maxradius*0.86
@@ -70,16 +70,16 @@ class GraphChart:
 				if self.options.showterms:
 					self.termssectorlen = 0.08
 				self.termsoffs = (self.termssectorlen/2.0)*self.maxradius
-				self.rTermsPlanet = self.r0-self.termsoffs#
+				self.rTermsPlanet = self.r0-self.termsoffs
 				self.rDecans = self.rTerms-self.termssectorlen*self.maxradius
 				self.decanssectorlen = 0.0
 				if self.options.showdecans:
 					self.decanssectorlen = 0.08
 				self.decansoffs = (self.decanssectorlen/2.0)*self.maxradius
 				self.rInner = self.rDecans-self.decanssectorlen*self.maxradius
-				self.rDecansPlanet = self.rInner+self.decansoffs#
+				self.rDecansPlanet = self.rInner+self.decansoffs
 
-				self.rLLine = self.rInner-self.planetlinelen*self.maxradius #line between zodiacpos & planet
+				self.rLLine = self.rInner-self.planetlinelen*self.maxradius  # line between zodiacpos & planet
 				self.rPlanet = self.rInner-self.planetoffs
 				self.rAsp = self.rInner-self.planetsectorlen*self.maxradius
 				self.rLLine2 = self.rAsp+self.planetlinelen*self.maxradius
@@ -261,9 +261,41 @@ class GraphChart:
 		self.deg_symbol = u'\u00b0'
 
 		self.arsigndiff = (0, -1, -1, 2, -1, 3, 4, -1, -1, -1, 6)
-		self.hsystem = {'P':mtexts.txts['HSPlacidus'], 'K':mtexts.txts['HSKoch'], 'R':mtexts.txts['HSRegiomontanus'], 'C':mtexts.txts['HSCampanus'], 'E':mtexts.txts['HSEqual'], 'W':mtexts.txts['HSWholeSign'], 'X':mtexts.txts['HSAxial'], 'M':mtexts.txts['HSMorinus'], 'H':mtexts.txts['HSHorizontal'], 'T':mtexts.txts['HSPagePolich'], 'B':mtexts.txts['HSAlcabitus'], 'O':mtexts.txts['HSPorphyrius']}
+		self.hsystem = {'P':mtexts.txts['HSPlacidus'],
+		                'K':mtexts.txts['HSKoch'],
+		                'R':mtexts.txts['HSRegiomontanus'],
+		                'C':mtexts.txts['HSCampanus'],
+		                'E':mtexts.txts['HSEqual'],
+		                'W':mtexts.txts['HSWholeSign'],
+		                'X':mtexts.txts['HSAxial'],
+		                'M':mtexts.txts['HSMorinus'],
+		                'H':mtexts.txts['HSHorizontal'],
+		                'T':mtexts.txts['HSPagePolich'],
+		                'B':mtexts.txts['HSAlcabitus'],
+		                'O':mtexts.txts['HSPorphyrius']}
 
-		self.ayans = {0:mtexts.txts['None'], 1:mtexts.txts['FaganBradley'], 2:mtexts.txts['Lahiri'], 3:mtexts.txts['Deluce'], 4:mtexts.txts['Raman'], 5:mtexts.txts['Ushashashi'], 6:mtexts.txts['Krishnamurti'], 7:mtexts.txts['DjwhalKhul'], 8:mtexts.txts['Yukteshwar'], 9:mtexts.txts['JNBhasin'], 10:mtexts.txts['BabylonianKuglerI2'], 11:mtexts.txts['BabylonianKuglerII2'], 12:mtexts.txts['BabylonianKuglerIII2'], 13:mtexts.txts['BabylonianHuber2'], 14:mtexts.txts['BabylonianMercier2'], 15:mtexts.txts['Aldebaran15Tau2'], 16:mtexts.txts['Hipparchos'], 17:mtexts.txts['Sassanian'], 18:mtexts.txts['GalacticCenter0Sag2'], 19:mtexts.txts['J2000'], 20:mtexts.txts['J1900'], 21:mtexts.txts['B1950']}
+		self.ayans = {0:mtexts.txts['None'],
+		              1:mtexts.txts['FaganBradley'],
+		              2:mtexts.txts['Lahiri'],
+		              3:mtexts.txts['Deluce'],
+		              4:mtexts.txts['Raman'],
+		              5:mtexts.txts['Ushashashi'],
+		              6:mtexts.txts['Krishnamurti'],
+		              7:mtexts.txts['DjwhalKhul'],
+		              8:mtexts.txts['Yukteshwar'],
+		              9:mtexts.txts['JNBhasin'],
+		              10:mtexts.txts['BabylonianKuglerI2'],
+		              11:mtexts.txts['BabylonianKuglerII2'],
+		              12:mtexts.txts['BabylonianKuglerIII2'],
+		              13:mtexts.txts['BabylonianHuber2'],
+		              14:mtexts.txts['BabylonianMercier2'],
+		              15:mtexts.txts['Aldebaran15Tau2'],
+		              16:mtexts.txts['Hipparchos'],
+		              17:mtexts.txts['Sassanian'],
+		              18:mtexts.txts['GalacticCenter0Sag2'],
+		              19:mtexts.txts['J2000'],
+		              20:mtexts.txts['J1900'],
+		              21:mtexts.txts['B1950']}
 
 
 	def drawChart(self):
@@ -305,15 +337,15 @@ class GraphChart:
 		if self.chart2 != None:
 			self.drawAscMC(self.chart2.houses.ascmc, self.rOuterMin, self.rOuterASCMC, self.rOuterArrow)
 
-		#calc shift of planets (in order to avoid overlapping)
+		# calc shift of planets (in order to avoid overlapping)
 		self.pshift = self.arrange(self.chart.planets.planets, self.chart.fortune.fortune, self.rPlanet)
-		#PIL doesn't want to show short lines
+		# PIL doesn't want to show short lines
 		self.drawPlanetLines(self.pshift, self.chart.planets.planets, self.chart.fortune.fortune, self.rInner, self.rLLine, self.rAsp, self.rLLine2)
 		if self.chart2 != None:
 			self.pshift2 = self.arrange(self.chart2.planets.planets, self.chart2.fortune.fortune, self.rOuterPlanet)
 			self.drawPlanetLines(self.pshift2, self.chart2.planets.planets, self.chart2.fortune.fortune, self.r30, self.rOuterLine)
 
-		#PIL can't draw dashed lines
+		# PIL can't draw dashed lines
 		if self.options.aspects:
 			self.drawAspectLines()
 			if self.options.showlof and self.options.showaspectstolof:
@@ -333,7 +365,7 @@ class GraphChart:
 				self.pshiftantis = self.arrangeAntis(self.chart.antiscia.plcontraant, self.chart.antiscia.lofcontraant, self.chart.antiscia.ascmccontraant, self.rAntis)
 				self.drawAntisLines(self.chart.antiscia.plcontraant, self.chart.antiscia.lofcontraant, self.chart.antiscia.ascmccontraant, self.pshiftantis, self.r30, self.rAntisLines)
 
-		#Convert to PIL (truetype-font is not supported in wxPython)
+		# Convert to PIL (truetype-font is not supported in wxPython)
 		wxImag = self.buffer.ConvertToImage()
 		self.img = Image.new('RGB', (wxImag.GetWidth(), wxImag.GetHeight()))
 		self.img.fromstring(wxImag.GetData())
@@ -1667,7 +1699,7 @@ class GraphChart:
 		x2 = cx+math.cos(math.pi+math.radians(self.chart.houses.ascmc[houses.Houses.ASC]-fixstrs[showfss[f2]][fixstars.FixStars.LON]-fsshift[f2]))*rFS
 		y2 = cy+math.sin(math.pi+math.radians(self.chart.houses.ascmc[houses.Houses.ASC]-fixstrs[showfss[f2]][fixstars.FixStars.LON]-fsshift[f2]))*rFS
 
-		#this is different between fixstars and planets
+		# this is different between fixstars and planets
 		w1, h1 = self.symbolSize/2, 3*self.symbolSize/4
 		w2, h2 = self.symbolSize/2, 3*self.symbolSize/4
 

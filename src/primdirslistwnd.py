@@ -353,7 +353,10 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		offs = PrimDirsListWnd.BORDER+self.TITLE_CELL_HEIGHT+self.SPACE_TITLEY
 
 		self.SECOND_TABLE_OFFSX = (self.TABLE_WIDTH+self.SPACE_BETWEEN_TABLESX)
-		if (y+yscrolledoffs > offs and y+yscrolledoffs < offs+self.TABLE_HEIGHT) and ((x+xscrolledoffs > PrimDirsListWnd.BORDER and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.TABLE_WIDTH) or (x+xscrolledoffs > PrimDirsListWnd.BORDER+self.SECOND_TABLE_OFFSX and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.SECOND_TABLE_OFFSX+self.TABLE_WIDTH)):
+		if (y+yscrolledoffs > offs and y+yscrolledoffs < offs+self.TABLE_HEIGHT) \
+			and ((x+xscrolledoffs > PrimDirsListWnd.BORDER and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.TABLE_WIDTH)
+			     or (x+xscrolledoffs > PrimDirsListWnd.BORDER+self.SECOND_TABLE_OFFSX
+			         and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.SECOND_TABLE_OFFSX+self.TABLE_WIDTH)):
 			col = 0
 			rownum = (y+yscrolledoffs-offs)/self.LINE_HEIGHT
 			if x+xscrolledoffs > PrimDirsListWnd.BORDER and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.TABLE_WIDTH:

@@ -3,12 +3,13 @@ Readme file to Mac OSX version of Morinus Python program.
 Morinus is an easy to use astrology software under GPLv3 license. It uses the swiss ephemeris so it's very accurate (5000BC - 5000AD). 
 It runs on every Operating System where Python and wxPython are available (Linux, Unix, Windows, MacOS).
 
-This Mac OSX version is based on Morinus 6.2 for MS Windows. This version has been tested on Mac OSX Lion (version 10.7.4), there is no guarantee that program will run on other Mac OSX versions (10.5.x, 10.6.x). I have no machine with these operating system versions :-(
+This Mac OSX version is based on Morinus 6.2 for MS Windows. This version has been tested on Mac OSX Lion (version 10.7.4 and 10.6.x), there is no guarantee that program will run on other Mac OSX versions (10.5.x and earlier). I have no machine with these operating system versions :-(
 
 
 Installation on Mac OSX
 
 	- download the latest dmg file from http://code.google.com/p/morinus-astro/downloads/list
+	- delete previous Morinus version, move it into Trash and empty (many thanks to Pankaj Dubey)
 	- double click installed dmg file, new volume is mounted (name = morinus)
 	- double click volume "morinus", volume is opened in Finder
 	- drag and drop "Morinus" application bundle into your favorite destination ( Desktop, Application folder, ...), avoid to use ~/Documents folder for installation.
@@ -46,8 +47,13 @@ Developers
 Maintainer Mac OSX - Vaclav Spirhanzl (Czech Republic), vjs.morinus@gmail.com
 
 Program's Website - https://sites.google.com/site/pymorinus/
+Download site - http://code.google.com/p/morinus-astro/downloads/list
+Blog site - http://astro-morinus.blogspot.com/
 
 Releases
+
+6.2.0r03 - 2012 August 1
+- fixed - problem with displaying of Synastry result
 
 6.2.0r02 - 2012 July 23
 - added standard Mac behavior in About menu and Quit menu

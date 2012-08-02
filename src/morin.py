@@ -307,7 +307,9 @@ class MFrame(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onExit, id=self.ID_Exit)
 
 		if 'wxMac' in wx.PlatformInfo:
+			# FIXIT: bug in wxPython on Mac ???
 			self.Bind(wx.EVT_PAINT, self.onPaint)
+			# self.Bind(wx.EVT_ERASE_BACKGROUND, self.onEraseBackground)
 		else:
 			self.Bind(wx.EVT_ERASE_BACKGROUND, self.onEraseBackground)
 
@@ -377,8 +379,9 @@ class MFrame(wx.Frame):
 
 		self.Bind(wx.EVT_MENU, self.onHelp, id=self.ID_Help)
 		if 'wxMac' in wx.PlatformInfo:
-			wx.App.SetMacAboutMenuItemId(aboutMenuItem.GetId())
-			self.Bind(wx.EVT_MENU, self.onAbout, aboutMenuItem)
+			idAboutMenu = aboutMenuItem.GetId()
+			wx.App.SetMacAboutMenuItemId(idAboutMenu)
+			self.Bind(wx.EVT_MENU, self.onAbout, id=idAboutMenu)
 			wx.App.SetMacExitMenuItemId(self.ID_Exit)
 		else:
 			self.Bind(wx.EVT_MENU, self.onAbout, id=self.ID_About)
@@ -387,6 +390,8 @@ class MFrame(wx.Frame):
 
 		self.splash = True
 
+		# FIXIT: patch for wxPython 2.8.x on Mac
+		# menu.append  and SetMenuBar must be after all Bind calls
 		menubar.Append(self.mhoros, mtexts.menutxts['MHoroscope'])
 		menubar.Append(self.mtable, mtexts.menutxts['MTable'])
 		menubar.Append(self.mcharts, mtexts.menutxts['MCharts'])
@@ -2557,7 +2562,8 @@ class MFrame(wx.Frame):
 		info.Version = '6.2'
 		info.Copyright = mtexts.txts['FreeSoft']
 		info.Description = mtexts.txts['Description']+str(astrology.swe_version())
-		info.WebSite = 'http://sites.google.com/site/pymorinus/', 'http://sites.google.com/site/pymorinus/'
+		info.WebSite = ('http://sites.google.com/site/pymorinus/',\
+		               'http://sites.google.com/site/pymorinus/')
 		info.Developers = [u'Robert Nagy (Hungary); robert.pluto@gmail.com (programming and astrology)\nPhilippe Epaud(France); philipeau@free.fr (french translation)\nMargherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)\nMartin Gansten (Sweden); http://www.martingansten.com/ (astrology)\nJaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)\nRoberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)\nPetr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)\nEndre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)\nDenis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)\nVáclav Jan Špirhanzl (Czech Rep.); vjs.morinus@gmail.com (MacOS version)']
 		info.License = mtexts.licensetxt
 		
@@ -2606,9 +2612,7 @@ class MFrame(wx.Frame):
 		self.mhoros.Enable(self.ID_Data, bEnable)
 		self.mhoros.Enable(self.ID_Save, bEnable)
 		self.mhoros.Enable(self.ID_SaveAsBitmap, bEnable)
-		# FIXIT: find the bug with endless loop, after that enable menu
-		#self.mhoros.Enable(self.ID_Synastry, bEnable)
-		self.mhoros.Enable(self.ID_Synastry, False)
+		self.mhoros.Enable(self.ID_Synastry, bEnable)
 		self.mhoros.Enable(self.ID_Close, bEnable)
 		self.mtable.Enable(self.ID_Positions, bEnable)
 		self.mtable.Enable(self.ID_TAlmutens, bEnable)

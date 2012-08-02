@@ -9,7 +9,10 @@ import mtexts
 
 class OrbisDlg(wx.Dialog):
 	def __init__(self, parent, options):
-		wx.Dialog.__init__(self, parent, -1, mtexts.txts['Orbis'], pos=wx.DefaultPosition, size=wx.DefaultSize, style=wx.DEFAULT_DIALOG_STYLE)
+		wx.Dialog.__init__(self, parent, -1, mtexts.txts['Orbis'],
+							pos=wx.DefaultPosition,
+							size=wx.DefaultSize,
+							style=wx.DEFAULT_DIALOG_STYLE)
 
 		self.parent = parent
 		self.options = options
@@ -85,7 +88,7 @@ class OrbisDlg(wx.Dialog):
 		#Cusps
 		self.scusps = wx.StaticBox(self, label='')
 		scuspssizer = wx.StaticBoxSizer(self.scusps, wx.VERTICAL)
-		gsizer = wx.GridSizer(1, 2)
+		gsizer = wx.GridSizer(2, 2)
 		label = wx.StaticText(self, -1, mtexts.txts['AscMC2']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.cuspascmc = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
@@ -106,7 +109,9 @@ class OrbisDlg(wx.Dialog):
 		gsizer = wx.GridSizer(1, 2)
 		label = wx.StaticText(self, -1, mtexts.txts['Exact']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
-		self.exact = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.exact = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.exact, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 5)
 		sexactsizer.Add(gsizer, 0, wx.ALIGN_LEFT|wx.LEFT|wx.TOP, 5)
 
@@ -119,67 +124,93 @@ class OrbisDlg(wx.Dialog):
 		gsizer = wx.GridSizer(13, 2)
 		label = wx.StaticText(self, -1, mtexts.txts['Conjunctio']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.conjunctio = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.conjunctio = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.conjunctio, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.conjunctio.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Semisextil']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.semisextil = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.semisextil = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.semisextil, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.semisextil.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Semiquadrat']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.semiquadrat = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.semiquadrat = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.semiquadrat, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.semiquadrat.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Sextil']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.sextil = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.sextil = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.sextil, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.sextil.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Quintile']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.quintile = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.quintile = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.quintile, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.quintile.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Quadrat']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.quadrat = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.quadrat = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.quadrat, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.quadrat.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Trigon']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.trigon = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.trigon = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.trigon, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.trigon.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Sesquiquadrat']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.sesquiquadrat = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.sesquiquadrat = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.sesquiquadrat, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.sesquiquadrat.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Biquintile']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.biquintile = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.biquintile = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.biquintile, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.biquintile.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Quinqunx']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.quinqunx = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.quinqunx = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.quinqunx, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.quinqunx.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Oppositio']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.oppositio = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.oppositio = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.oppositio, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.oppositio.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Parallel']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.parallel = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.parallel = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.parallel, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.parallel.SetMaxLength(4)
 		label = wx.StaticText(self, -1, mtexts.txts['Contraparallel']+':')
 		gsizer.Add(label, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
-		self.contraparallel = wx.TextCtrl(self, -1, '', validator=floatvalidator.FloatValidator(0.0, 10.0), size=(50, -1))
+		self.contraparallel = wx.TextCtrl(self, -1, '',
+							validator=floatvalidator.FloatValidator(0.0, 10.0),
+							size=(50, -1))
 		gsizer.Add(self.contraparallel, 0, wx.ALIGN_CENTER_VERTICAL|wx.ALL, 2)
 		self.contraparallel.SetMaxLength(4)
 
@@ -195,7 +226,7 @@ class OrbisDlg(wx.Dialog):
 		sfixstarssizer.Add(btnFixStars, 0, wx.ALIGN_CENTER|wx.ALL, 5)
 		vsizer.Add(sfixstarssizer, 0, wx.GROW|wx.TOP, 0)
 
-		mhsizer.Add(vsizer, 0, wx.GROW|wx.ALIGN_CENTER_HORIZONTAL|wx.LEFT, 5)
+		mhsizer.Add(vsizer, 0, wx.GROW | wx.ALIGN_CENTER_HORIZONTAL | wx.LEFT, 5)
 
 		btnsizer = wx.StdDialogButtonSizer()
 
@@ -207,8 +238,8 @@ class OrbisDlg(wx.Dialog):
 		btnsizer.AddButton(btn)
 		btnsizer.Realize()
 
-		mvsizer.Add(mhsizer, 0, wx.GROW|wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 5)
-		mvsizer.Add(btnsizer, 0, wx.GROW|wx.ALIGN_CENTER_HORIZONTAL|wx.ALL, 10)
+		mvsizer.Add(mhsizer, 0, wx.GROW | wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 5)
+		mvsizer.Add(btnsizer, 0, wx.GROW | wx.ALIGN_CENTER_HORIZONTAL | wx.ALL, 10)
 
 		self.SetSizer(mvsizer)
 		mvsizer.Fit(self)
@@ -229,11 +260,14 @@ class OrbisDlg(wx.Dialog):
 		self.ascmc.Bind(wx.EVT_RADIOBUTTON, self.onBtn)
 		self.houses.Bind(wx.EVT_RADIOBUTTON, self.onBtn)
 	
-		self.arasps = [self.conjunctio, self.semisextil, self.semiquadrat, self.sextil, self.quintile, self.quadrat, self.trigon, self.sesquiquadrat, self.biquintile, self.quinqunx, self.oppositio]
+		self.arasps = [self.conjunctio, self.semisextil, self.semiquadrat,
+		               self.sextil, self.quintile, self.quadrat, self.trigon,
+		               self.sesquiquadrat, self.biquintile, self.quinqunx,
+		               self.oppositio]
 
 		self.currid = self.ID_Sun-self.baseid
 
-		#Load
+		# Load
 		self.cuspascmc.SetValue(str(self.options.orbiscuspAscMC))
 		self.cuspinter.SetValue(str(self.options.orbiscuspH))
 
@@ -266,7 +300,7 @@ class OrbisDlg(wx.Dialog):
 		if (self.Validate() and self.scusps.Validate() and self.sexact.Validate() and self.saspects.Validate()):
 			bValidated = True
 
-		if rid <= self.ID_Nodes-self.baseid: # planets
+		if rid <= self.ID_Nodes-self.baseid:    # planets
 			if bValidated:
 				self.save(self.currid)
 
@@ -276,7 +310,7 @@ class OrbisDlg(wx.Dialog):
 			self.parallel.SetValue(str(self.orbisplanetspar[rid][0]))
 			self.contraparallel.SetValue(str(self.orbisplanetspar[rid][1]))
 
-		elif rid == self.ID_AscMC-self.baseid: #AscMC
+		elif rid == self.ID_AscMC - self.baseid:      # AscMC
 			if bValidated:
 				self.save(self.currid)
 
@@ -384,5 +418,3 @@ class OrbisDlg(wx.Dialog):
 				changed = True
 
 		return changed
-
-
