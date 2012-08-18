@@ -31,6 +31,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		self.bw = self.options.bw
 		self.pds = pds
 		self.mainfr = mainfr
+		self.buffer = None
 
 		self.SetBackgroundColour(self.options.clrbackground)
 		self.SetScrollRate(PrimDirsListWnd.SCROLL_RATE, PrimDirsListWnd.SCROLL_RATE)
@@ -39,7 +40,9 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		self.ID_SaveAsBitmap = wx.NewId()
 		self.ID_SaveAsText = wx.NewId()
 		self.ID_BlackAndWhite = wx.NewId()
-		if chrt.htype == chart.Chart.RADIX:
+		# FIXIT: PDs does not function on Mac OS X and wxPython 2.8, temporary disabled
+		if chrt.htype == chart.Chart.RADIX and\
+		   not 'wxMac' in wx.PlatformInfo:
 			self.ID_PDsInChartInZod = wx.NewId()
 			self.ID_PDsInChartInMun = wx.NewId()
 			self.ID_PDsInChartIngress = wx.NewId()
@@ -47,7 +50,9 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		self.pmenu.Append(self.ID_SaveAsBitmap, mtexts.txts['SaveAsBmp'], mtexts.txts['SaveTable'])
 		self.pmenu.Append(self.ID_SaveAsText, mtexts.txts['SaveAsText'], mtexts.txts['SavePDs'])
 		mbw = self.pmenu.Append(self.ID_BlackAndWhite, mtexts.txts['BlackAndWhite'], mtexts.txts['TableBW'], wx.ITEM_CHECK)
-		if chrt.htype == chart.Chart.RADIX:
+		# FIXIT: PDs does not function on Mac OS X and wxPython 2.8, temporary disabled
+		if chrt.htype == chart.Chart.RADIX and\
+		   not 'wxMac' in wx.PlatformInfo:
 			self.pmenu.Append(self.ID_PDsInChartInZod, mtexts.txts['PDsInChartInZod'], mtexts.txts['PDsInChartInZod'])
 			self.pmenu.Append(self.ID_PDsInChartInMun, mtexts.txts['PDsInChartInMun'], mtexts.txts['PDsInChartInMun'])
 			self.pmenu.Append(self.ID_PDsInChartIngress, mtexts.txts['PDsInChartIngress'], mtexts.txts['PDsInChartIngress'])
@@ -57,7 +62,9 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		self.Bind(wx.EVT_MENU, self.onSaveAsBitmap, id=self.ID_SaveAsBitmap)
 		self.Bind(wx.EVT_MENU, self.onSaveAsText, id=self.ID_SaveAsText)
 		self.Bind(wx.EVT_MENU, self.onBlackAndWhite, id=self.ID_BlackAndWhite)
-		if chrt.htype == chart.Chart.RADIX:
+		# FIXIT: PDs does not function on Mac OS X and wxPython 2.8, temporary disabled
+		if chrt.htype == chart.Chart.RADIX and \
+		   not 'wxMac' in wx.PlatformInfo:
 			self.Bind(wx.EVT_MENU, self.onPDsInChartZod, id=self.ID_PDsInChartInZod)
 			self.Bind(wx.EVT_MENU, self.onPDsInChartMun, id=self.ID_PDsInChartInMun)
 			self.Bind(wx.EVT_MENU, self.onPDsInChartIngress, id=self.ID_PDsInChartIngress)
@@ -101,6 +108,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		self.drawBkg()
 		self.curposx = None
 		self.curposy = None
+		self.bkgclr = None
 
 
 	def onPopupMenu(self, event):
@@ -120,10 +128,11 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 			dpath = dlg.GetDirectory()
 			fpath = dlg.GetPath()
 			if (not fpath.endswith(u'.bmp')):
-				fpath+=u'.bmp'
+				fpath += u'.bmp'
 			#Check if fpath already exists!?
 			if (os.path.isfile(fpath)):
- 				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
+ 				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'],
+					 wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
 				if (dlgm.ShowModal() == wx.ID_NO):
 					dlgm.Destroy()
 					dlg.Destroy()
@@ -153,10 +162,11 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 			dpath = dlg.GetDirectory()
 			fpath = dlg.GetPath()
 			if not fpath.endswith(u'.txt'):
-				fpath+=u'.txt'
+				fpath += u'.txt'
 			#Check if fpath already exists!?
 			if os.path.isfile(fpath):
- 				dlg = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
+ 				dlg = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'],
+					 wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
 				if dlg.ShowModal() == wx.ID_NO:
 					return
 
@@ -310,7 +320,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					else:
 						pdchart.fortune.calcRegioPDsInChartsPos(pdchart.houses.ascmc2, pdchartpls.fortune, self.chart.place.lat, self.chart.obl[0])
 	
-				else:#Full Astronomical Procedure
+				else: # Full Astronomical Procedure
 					pdchart = chart.Chart(self.chart.name, self.chart.male, tim, self.chart.place, chart.Chart.PDINCHART, '', self.options, False)#, proftype, nolat)
 
 					pdchartpls = chart.Chart(self.chart.name, self.chart.male, self.chart.time, self.chart.place, chart.Chart.PDINCHART, '', self.options, False)
@@ -319,8 +329,13 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					if self.options.pdinchartsecmotion:
 						pdpls = pdchart.planets.planets
 
-					raequasc, declequasc, dist = astrology.swe_cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC], 0.0, 1.0, -self.chart.obl[0])
-					pdchart.planets.calcFullAstronomicalProc(da, self.chart.obl[0], pdpls, pdchart.place.lat, pdchart.houses.ascmc2, raequasc) #planets
+					raequasc, declequasc, dist = astrology.swe_cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC],
+													0.0, 1.0, -self.chart.obl[0])
+					pdchart.planets.calcFullAstronomicalProc(da,
+															self.chart.obl[0],
+															pdpls,
+															pdchart.place.lat,
+															pdchart.houses.ascmc2, raequasc) #planets
 					pdchart.fortune.calcFullAstronomicalProc(pdchartpls.fortune, da, self.chart.obl[0]) 
 
 			else:
@@ -328,7 +343,8 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					pdchart = chart.Chart(self.chart.name, self.chart.male, tim, self.chart.place, chart.Chart.PDINCHART, '', self.options, False)#, proftype, nolat)
 				else:
 					pdchart = chart.Chart(self.chart.name, self.chart.male, self.chart.time, self.chart.place, chart.Chart.PDINCHART, '', self.options, False)#, proftype, nolat)
-					raequasc, declequasc, dist = astrology.swe_cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC], 0.0, 1.0, -self.chart.obl[0])
+					raequasc, declequasc, dist = astrology.swe_cotrans(pdchart.houses.ascmc[houses.Houses.EQUASC],
+																		0.0, 1.0, -self.chart.obl[0])
 					pdchart.planets.calcMundaneWithoutSM(da, self.chart.obl[0], pdchart.place.lat, pdchart.houses.ascmc2, raequasc)
 
 				pdchart.fortune.recalcForMundaneChart(self.chart.fortune.fortune[fortune.Fortune.LON], self.chart.fortune.fortune[fortune.Fortune.LAT], self.chart.fortune.fortune[fortune.Fortune.RA], self.chart.fortune.fortune[fortune.Fortune.DECL], pdchart.houses.ascmc2, pdchart.raequasc, pdchart.obl[0], pdchart.place.lat)
@@ -347,24 +363,25 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 	def getPDNum(self, event):
 		xu, yu = self.GetScrollPixelsPerUnit()
 		xs, ys = self.GetViewStart()
-		yscrolledoffs = yu*ys
-		xscrolledoffs = xu*xs
-		x,y = self.curposx, self.curposy
-		offs = PrimDirsListWnd.BORDER+self.TITLE_CELL_HEIGHT+self.SPACE_TITLEY
+		yscrolledoffs = yu * ys
+		xscrolledoffs = xu * xs
+		x, y = self.curposx, self.curposy
+		offs = PrimDirsListWnd.BORDER + self.TITLE_CELL_HEIGHT + self.SPACE_TITLEY
 
+		# FIXIT: bug in if statement, but where ??? Python bug ??? no bug, strange behavior
 		self.SECOND_TABLE_OFFSX = (self.TABLE_WIDTH+self.SPACE_BETWEEN_TABLESX)
-		if (y+yscrolledoffs > offs and y+yscrolledoffs < offs+self.TABLE_HEIGHT) \
-			and ((x+xscrolledoffs > PrimDirsListWnd.BORDER and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.TABLE_WIDTH)
-			     or (x+xscrolledoffs > PrimDirsListWnd.BORDER+self.SECOND_TABLE_OFFSX
-			         and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.SECOND_TABLE_OFFSX+self.TABLE_WIDTH)):
+		if ( y + yscrolledoffs > offs and y + yscrolledoffs < offs + self.TABLE_HEIGHT) \
+			and ((x + xscrolledoffs > PrimDirsListWnd.BORDER and x + xscrolledoffs < PrimDirsListWnd.BORDER+self.TABLE_WIDTH)
+			     or (x + xscrolledoffs > PrimDirsListWnd.BORDER + self.SECOND_TABLE_OFFSX
+			         and x + xscrolledoffs < PrimDirsListWnd.BORDER + self.SECOND_TABLE_OFFSX + self.TABLE_WIDTH)):
 			col = 0
 			rownum = (y+yscrolledoffs-offs)/self.LINE_HEIGHT
-			if x+xscrolledoffs > PrimDirsListWnd.BORDER and x+xscrolledoffs < PrimDirsListWnd.BORDER+self.TABLE_WIDTH:
+			if x + xscrolledoffs > PrimDirsListWnd.BORDER and x + xscrolledoffs < PrimDirsListWnd.BORDER + self.TABLE_WIDTH:
 				pass
 			else:
 				col = 1
 
-			pdnum = (self.currpage-1)*2*self.LINE_NUM+self.LINE_NUM*col+rownum
+			pdnum = (self.currpage - 1) * 2 * self.LINE_NUM + self.LINE_NUM * col + rownum
 
 			return pdnum < len(self.pds.pds), pdnum
 
@@ -375,7 +392,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 
 	def drawBkg(self):
 		if self.bw:
-			self.bkgclr = (255,255,255)
+			self.bkgclr = (255, 255, 255)
 		else:
 			self.bkgclr = self.options.clrbackground
 
@@ -383,7 +400,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 
 		tableclr = self.options.clrtable
 		if self.bw:
-			tableclr = (0,0,0)
+			tableclr = (0, 0, 0)
 
 		img = Image.new('RGB', (self.WIDTH, self.HEIGHT), self.bkgclr)
 		draw = ImageDraw.Draw(img)
@@ -401,9 +418,9 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 
 		clr = self.options.clrtexts
 		if self.bw:
-			clr = (0,0,0)
+			clr = (0, 0, 0)
 		txt = dirtxt+'   '+keytypetxt+': '+keytxt
-		w,h = draw.textsize(txt, self.fntText)
+		w, h = draw.textsize(txt, self.fntText)
 		draw.text((BOR+(self.TITLE_CELL_WIDTH-w)/2, BOR+(self.LINE_HEIGHT-h)/2), txt, fill=clr, font=self.fntText)
 
 		txt = str(self.currpage)+' / '+str(self.maxpage)
@@ -413,12 +430,12 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 		widths = (self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.BIG_CELL_WIDTH)
 		summa = 0
 		for i in range(self.COLUMN_NUM):
-			w,h = draw.textsize(txt[i], self.fntText)
+			w, h = draw.textsize(txt[i], self.fntText)
 			draw.text((BOR+summa+(widths[i]-w)/2, BOR+self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt[i], fill=clr, font=self.fntText)
 			summa += widths[i]
 		summa = 0
 		for i in range(self.COLUMN_NUM):
-			w,h = draw.textsize(txt[i], self.fntText)
+			w, h = draw.textsize(txt[i], self.fntText)
 			draw.text((self.SECOND_TABLE_OFFSX+BOR+summa+(widths[i]-w)/2, BOR+self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt[i], fill=clr, font=self.fntText)
 			summa += widths[i]
 
@@ -443,7 +460,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 			lim = rng-self.LINE_NUM##
 			idx = self.fr+self.LINE_NUM##
 			for i in range(lim):
-				self.drawline(draw, x, y+i*self.LINE_HEIGHT, idx, tableclr)
+				self.drawline(draw, x, y + i * self.LINE_HEIGHT, idx, tableclr)
 				idx += 1
 
 		wxImg = wx.EmptyImage(img.size[0], img.size[1])
@@ -461,17 +478,18 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 
 
 	def drawline(self, draw, x, y, idx, clr):
-		#bottom horizontal line
+		# bottom horizontal line
 		draw.line((x, y+self.LINE_HEIGHT, x+self.TABLE_WIDTH, y+self.LINE_HEIGHT), fill=clr)
 
-		#vertical lines and PD
-		offs = (0, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH, self.BIG_CELL_WIDTH)
+		# vertical lines and PD
+		offs = (0, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.SMALL_CELL_WIDTH, self.CELL_WIDTH, self.CELL_WIDTH,
+		        self.BIG_CELL_WIDTH)
 
 		BOR = PrimDirsListWnd.BORDER
 		summa = 0
 		txtclr = self.options.clrtexts
 		if self.bw:
-			txtclr = (0,0,0)
+			txtclr = (0, 0, 0)
 		for i in range(self.COLUMN_NUM+1):
 			draw.line((x+summa+offs[i], y, x+summa+offs[i], y+self.LINE_HEIGHT), fill=clr)
 			#pd
@@ -480,18 +498,20 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 				if not self.pds.pds[idx].mundane:
 					mtxt = mtexts.txts['Z']
 				
-				w,h = draw.textsize(mtxt, self.fntText)
+				w, h = draw.textsize(mtxt, self.fntText)
 				draw.text((x+summa+(offs[i]-w)/2, y+(self.LINE_HEIGHT-h)/2), mtxt, fill=txtclr, font=self.fntText)
 			elif i == 2:#Prom
-				if self.pds.pds[idx].promasp == chart.Chart.MIDPOINT or self.pds.pds[idx].sigasp == chart.Chart.RAPTPAR or self.pds.pds[idx].sigasp == chart.Chart.RAPTCONTRAPAR:
+				if self.pds.pds[idx].promasp == chart.Chart.MIDPOINT or\
+				   self.pds.pds[idx].sigasp == chart.Chart.RAPTPAR or\
+				   self.pds.pds[idx].sigasp == chart.Chart.RAPTCONTRAPAR:
 					promtxt = common.common.Planets[self.pds.pds[idx].prom]
 					prom2txt = common.common.Planets[self.pds.pds[idx].prom2]
 
-					wp,hp = draw.textsize(promtxt, self.fntMorinus)
-					wsp,hsp = draw.textsize(' ', self.fntText)
-					wp2,hp2 = draw.textsize(prom2txt, self.fntMorinus)
+					wp, hp = draw.textsize(promtxt, self.fntMorinus)
+					wsp, hsp = draw.textsize(' ', self.fntText)
+					wp2, hp2 = draw.textsize(prom2txt, self.fntMorinus)
 					offset = (offs[i]-(wp+wsp+wp2))/2
-					tclr = (0,0,0)
+					tclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							objidx = self.pds.pds[idx].prom
@@ -501,7 +521,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 						else:
 							tclr = self.clrs[self.chart.dignity(self.pds.pds[idx].prom)]
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), promtxt, fill=tclr, font=self.fntMorinus)
-					tclr = (0,0,0)
+					tclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							objidx = self.pds.pds[idx].prom2
@@ -514,22 +534,23 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 				elif self.pds.pds[idx].prom >= primdirs.PrimDir.ANTISCION and self.pds.pds[idx].prom < primdirs.PrimDir.TERM:
 					promasptxt = ''
 					wspa = 0
-					wsp,hsp = draw.textsize(' ', self.fntText)
+					wsp, hsp = draw.textsize(' ', self.fntText)
 					if self.pds.pds[idx].promasp != chart.Chart.CONJUNCTIO:
 						promasptxt += common.common.Aspects[self.pds.pds[idx].promasp]
 						wspa = wsp
-					wa,ha = draw.textsize(promasptxt, self.fntAspects)
+					wa, ha = draw.textsize(promasptxt, self.fntAspects)
 
 					anttxt = mtexts.txts['Antis']
 					if self.pds.pds[idx].prom >= primdirs.PrimDir.CONTRAANT:
 						anttxt = mtexts.txts['ContraAntis']
-					wt,ht = draw.textsize(anttxt, self.fntText)
+					wt, ht = draw.textsize(anttxt, self.fntText)
 
 					promtxt = ''
 					promfnt = None
 					antoffs = 0
-					tclr = (0,0,0)
-					if self.pds.pds[idx].prom == primdirs.PrimDir.ANTISCIONLOF or self.pds.pds[idx].prom == primdirs.PrimDir.CONTRAANTLOF:
+					tclr = (0, 0, 0)
+					if self.pds.pds[idx].prom == primdirs.PrimDir.ANTISCIONLOF or\
+					   self.pds.pds[idx].prom == primdirs.PrimDir.CONTRAANTLOF:
 						promtxt = common.common.fortune
 						promfnt = self.fntMorinus
 						if not self.bw:
@@ -537,12 +558,14 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 								tclr = self.options.clrindividual[astrology.SE_MEAN_NODE+1]
 							else:
 								tclr = self.options.clrperegrin
-					elif self.pds.pds[idx].prom == primdirs.PrimDir.ANTISCIONASC or self.pds.pds[idx].prom == primdirs.PrimDir.CONTRAANTASC:
+					elif self.pds.pds[idx].prom == primdirs.PrimDir.ANTISCIONASC or\
+					     self.pds.pds[idx].prom == primdirs.PrimDir.CONTRAANTASC:
 						promtxt = mtexts.txts['Asc']
 						promfnt = self.fntText				
 						if not self.bw:
 							tclr = txtclr
-					elif self.pds.pds[idx].prom == primdirs.PrimDir.ANTISCIONMC or self.pds.pds[idx].prom == primdirs.PrimDir.CONTRAANTMC:
+					elif self.pds.pds[idx].prom == primdirs.PrimDir.ANTISCIONMC or\
+					     self.pds.pds[idx].prom == primdirs.PrimDir.CONTRAANTMC:
 						promtxt = mtexts.txts['MC']
 						promfnt = self.fntText				
 						if not self.bw:
@@ -566,13 +589,14 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 							else:
 								tclr = self.clrs[self.chart.dignity(self.pds.pds[idx].prom-antoffs)]
 
-					wp,hp = draw.textsize(promtxt, promfnt)
+					wp, hp = draw.textsize(promtxt, promfnt)
 
 					offset = (offs[i]-(wa+wspa+wt+wsp+wp))/2
 					if promasptxt != '':
-						clrasp = (0,0,0)
+						clrasp = (0, 0, 0)
 						if not self.bw:
-							if self.pds.pds[idx].promasp == chart.Chart.PARALLEL or self.pds.pds[idx].promasp == chart.Chart.CONTRAPARALLEL:
+							if self.pds.pds[idx].promasp == chart.Chart.PARALLEL or\
+							   self.pds.pds[idx].promasp == chart.Chart.CONTRAPARALLEL:
 								clrasp = self.options.clrperegrin
 							else:
 								clrasp = self.options.clraspect[self.pds.pds[idx].promasp]
@@ -580,22 +604,23 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 
 					draw.text((x+summa+offset+wa+wspa, y+(self.LINE_HEIGHT-ht)/2), anttxt, fill=txtclr, font=self.fntText)
 					draw.text((x+summa+offset+wa+wspa+wt+wsp, y+(self.LINE_HEIGHT-hp)/2), promtxt, fill=tclr, font=promfnt)
-				elif self.pds.pds[idx].prom >= primdirs.PrimDir.TERM and self.pds.pds[idx].prom < primdirs.PrimDir.FIXSTAR:
+				elif self.pds.pds[idx].prom >= primdirs.PrimDir.TERM and\
+				     self.pds.pds[idx].prom < primdirs.PrimDir.FIXSTAR:
 					signs = common.common.Signs1
 					if not self.options.signs:
 						signs = common.common.Signs2
 					promtxt = signs[self.pds.pds[idx].prom-primdirs.PrimDir.TERM]
 					prom2txt = common.common.Planets[self.pds.pds[idx].prom2]
 
-					wp,hp = draw.textsize(promtxt, self.fntMorinus)
-					wsp,hsp = draw.textsize(' ', self.fntText)
-					wp2,hp2 = draw.textsize(prom2txt, self.fntMorinus)
+					wp, hp = draw.textsize(promtxt, self.fntMorinus)
+					wsp, hsp = draw.textsize(' ', self.fntText)
+					wp2, hp2 = draw.textsize(prom2txt, self.fntMorinus)
 					offset = (offs[i]-(wp+wsp+wp2))/2
-					sclr = (0,0,0)
+					sclr = (0, 0, 0)
 					if not self.bw:
 						sclr = self.options.clrsigns
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), promtxt, fill=sclr, font=self.fntMorinus)
-					tclr = (0,0,0)
+					tclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							objidx = self.pds.pds[idx].prom2
@@ -611,10 +636,10 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 						tradname = self.chart.fixstars.data[self.pds.pds[idx].prom-primdirs.PrimDir.FIXSTAR][fixstars.FixStars.NAME].strip()
 						if tradname != '':
 							promtxt = tradname
-					w,h = draw.textsize(promtxt, self.fntText)
+					w, h = draw.textsize(promtxt, self.fntText)
 					draw.text((x+summa+(offs[i]-w)/2, y+(self.LINE_HEIGHT-h)/2), promtxt, fill=txtclr, font=self.fntText)
 				elif self.pds.pds[idx].prom == primdirs.PrimDir.LOF:
-					lofclr = (0,0,0)
+					lofclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							lofclr = self.options.clrindividual[astrology.SE_MEAN_NODE+1]
@@ -622,12 +647,12 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 							lofclr = self.options.clrperegrin
 
 					promtxt = common.common.fortune
-					wp,hp = draw.textsize(promtxt, self.fntMorinus)
+					wp, hp = draw.textsize(promtxt, self.fntMorinus)
 					offset = (offs[i]-wp)/2
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), promtxt, fill=lofclr, font=self.fntMorinus)
 				elif self.pds.pds[idx].prom == primdirs.PrimDir.CUSTOMERPD:
 					promtxt = mtexts.txts['Customer2']
-					wp,hp = draw.textsize(promtxt, self.fntText)
+					wp, hp = draw.textsize(promtxt, self.fntText)
 					offset = (offs[i]-wp)/2
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), promtxt, fill=txtclr, font=self.fntText)
 				elif self.pds.pds[idx].prom == primdirs.PrimDir.ASC or self.pds.pds[idx].prom == primdirs.PrimDir.MC:
@@ -637,23 +662,25 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					promtxt = mtexts.txts['Asc']
 					if self.pds.pds[idx].prom == primdirs.PrimDir.MC:
 						promtxt = mtexts.txts['MC']
-					wa,ha = draw.textsize(promasptxt, self.fntAspects)
-					wsp,hsp = draw.textsize(' ', self.fntText)
-					ws,hs = draw.textsize(promtxt, self.fntText)
+					wa, ha = draw.textsize(promasptxt, self.fntAspects)
+					wsp, hsp = draw.textsize(' ', self.fntText)
+					ws, hs = draw.textsize(promtxt, self.fntText)
 					offset = (offs[i]-(wa+wsp+ws))/2
-					clrasp = (0,0,0)
+					clrasp = (0, 0, 0)
 					if not self.bw:
-						if self.pds.pds[idx].promasp == chart.Chart.PARALLEL or self.pds.pds[idx].promasp == chart.Chart.CONTRAPARALLEL:
+						if self.pds.pds[idx].promasp == chart.Chart.PARALLEL or\
+						   self.pds.pds[idx].promasp == chart.Chart.CONTRAPARALLEL:
 							clrasp = self.options.clrperegrin
 						else:
 							clrasp = self.options.clraspect[self.pds.pds[idx].promasp]
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-ha)/2), promasptxt, fill=clrasp, font=self.fntAspects)
 					draw.text((x+summa+offset+wa+wsp, y+(self.LINE_HEIGHT-hs)/2), promtxt, fill=txtclr, font=self.fntText)
-				elif self.pds.pds[idx].prom >= primdirs.PrimDir.HC2 and self.pds.pds[idx].prom < primdirs.PrimDir.LOF:#Sig is HC
+				elif self.pds.pds[idx].prom >= primdirs.PrimDir.HC2 and\
+				     self.pds.pds[idx].prom < primdirs.PrimDir.LOF:     # Sig is HC
 					HCs = (mtexts.txts['HC2'], mtexts.txts['HC3'], mtexts.txts['HC5'], mtexts.txts['HC6'], mtexts.txts['HC8'], mtexts.txts['HC9'], mtexts.txts['HC11'], mtexts.txts['HC12'])
 					hctxt = HCs[self.pds.pds[idx].sig-primdirs.PrimDir.HC2]
-					ws,hs = draw.textsize(hctxt, self.fntText)
-					offset = (offs[i]-ws)/2
+					ws, hs = draw.textsize(hctxt, self.fntText)
+					offset = (offs[i] - ws) / 2
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hs)/2), hctxt, fill=txtclr, font=self.fntText)
 				else:
 					promtxt = common.common.Planets[self.pds.pds[idx].prom]
@@ -661,18 +688,19 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					if self.pds.pds[idx].promasp != chart.Chart.CONJUNCTIO:
 						promasptxt += common.common.Aspects[self.pds.pds[idx].promasp]
 	
-					wp,hp = draw.textsize(promtxt, self.fntMorinus)
-					wa,ha = draw.textsize(promasptxt, self.fntAspects)
-					wsp,hsp = draw.textsize(' ', self.fntText)
+					wp, hp = draw.textsize(promtxt, self.fntMorinus)
+					wa, ha = draw.textsize(promasptxt, self.fntAspects)
+					wsp, hsp = draw.textsize(' ', self.fntText)
 					wspa = 0
 					if promasptxt != '':
 						wspa = wsp
 					offset = (offs[i]-(wa+wspa+wp+wsp))/2
-					tclr = (0,0,0)
+					tclr = (0, 0, 0)
 					if promasptxt != '':
-						clrasp = (0,0,0)
+						clrasp = (0, 0, 0)
 						if not self.bw:
-							if self.pds.pds[idx].promasp == chart.Chart.PARALLEL or self.pds.pds[idx].promasp == chart.Chart.CONTRAPARALLEL:
+							if self.pds.pds[idx].promasp == chart.Chart.PARALLEL or\
+							   self.pds.pds[idx].promasp == chart.Chart.CONTRAPARALLEL:
 								clrasp = self.options.clrperegrin
 							else:
 								clrasp = self.options.clraspect[self.pds.pds[idx].promasp]
@@ -691,9 +719,9 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 				if not self.pds.pds[idx].direct:
 					dirtxt = mtexts.txts['C']
 				
-				w,h = draw.textsize(dirtxt, self.fntText)
-				wsp,hsp = draw.textsize(' ', self.fntText)
-				warr,harr = draw.textsize('-', self.fntSymbol)
+				w, h = draw.textsize(dirtxt, self.fntText)
+				wsp, hsp = draw.textsize(' ', self.fntText)
+				warr, harr = draw.textsize('-', self.fntSymbol)
 				offset = (offs[i]-(w+wsp+warr))/2
 				draw.text((x+summa+offset, y+(self.LINE_HEIGHT-h)/2), dirtxt, fill=txtclr, font=self.fntText)
 				draw.text((x+summa+offset+w+wsp, y+(self.LINE_HEIGHT-harr)/2), '-', fill=txtclr, font=self.fntSymbol)
@@ -705,21 +733,21 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					partxt = 'X'
 					if self.pds.pds[idx].parallelaxis == 0 and self.pds.pds[idx].sigasp == chart.Chart.CONTRAPARALLEL:
 						partxt = 'Y'
-					wp,hp = draw.textsize(partxt, self.fntAspects)
+					wp, hp = draw.textsize(partxt, self.fntAspects)
 					sigtxt = common.common.Planets[self.pds.pds[idx].sig]
-					ws,hs = draw.textsize(sigtxt, self.fntMorinus)
-					wsp,hsp = draw.textsize(' ', self.fntText)
+					ws, hs = draw.textsize(sigtxt, self.fntMorinus)
+					wsp, hsp = draw.textsize(' ', self.fntText)
 					angles = ('('+mtexts.txts['Asc']+')', '('+mtexts.txts['Dsc']+')', '('+mtexts.txts['MC']+')', '('+mtexts.txts['IC']+')')
 					angletxt = ''
 					if self.pds.pds[idx].parallelaxis != 0:
 						angletxt = angles[self.pds.pds[idx].parallelaxis-primdirs.PrimDir.OFFSANGLES]
-					wa,ha = draw.textsize(angletxt, self.fntText)
-					offset = (offs[i]-(wp+wsp+ws+wsp+wa))/2
-					pclr = (0,0,0)
+					wa, ha = draw.textsize(angletxt, self.fntText)
+					offset = (offs[i] - (wp + wsp + ws + wsp + wa)) / 2
+					pclr = (0, 0, 0)
 					if not self.bw:
 						pclr = self.options.clrperegrin
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), partxt, fill=pclr, font=self.fntAspects)
-					tclr = (0,0,0)
+					tclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							objidx = self.pds.pds[idx].sig
@@ -730,25 +758,26 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 							tclr = self.clrs[self.chart.dignity(self.pds.pds[idx].sig)]
 					draw.text((x+summa+offset+wp+wsp, y+(self.LINE_HEIGHT-hs)/2), sigtxt, fill=tclr, font=self.fntMorinus)
 					draw.text((x+summa+offset+wp+wsp+ws+wsp, y+(self.LINE_HEIGHT-ha)/2), angletxt, fill=txtclr, font=self.fntText)
-				elif self.pds.pds[idx].sigasp == chart.Chart.RAPTPAR or self.pds.pds[idx].sigasp == chart.Chart.RAPTCONTRAPAR:
-					#R Par (Asc,Desc,MC,IC)
+				elif self.pds.pds[idx].sigasp == chart.Chart.RAPTPAR or\
+				     self.pds.pds[idx].sigasp == chart.Chart.RAPTCONTRAPAR:
+					# R Par (Asc,Desc,MC,IC)
 					rapttxt = 'R'
 					partxt = 'X'
-					wr,hr = draw.textsize(rapttxt, self.fntText)
-					wp,hp = draw.textsize(partxt, self.fntAspects)
-					wsp,hsp = draw.textsize(' ', self.fntText)
+					wr, hr = draw.textsize(rapttxt, self.fntText)
+					wp, hp = draw.textsize(partxt, self.fntAspects)
+					wsp, hsp = draw.textsize(' ', self.fntText)
 					angles = ('('+mtexts.txts['Asc']+')', '('+mtexts.txts['Dsc']+')', '('+mtexts.txts['MC']+')', '('+mtexts.txts['IC']+')')
 					angletxt = angles[self.pds.pds[idx].parallelaxis-primdirs.PrimDir.OFFSANGLES]
-					wa,ha = draw.textsize(angletxt, self.fntText)
+					wa, ha = draw.textsize(angletxt, self.fntText)
 					offset = (offs[i]-(wr+wp+wsp+wsp+wa))/2
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hr)/2), rapttxt, fill=txtclr, font=self.fntText)
-					pclr = (0,0,0)
+					pclr = (0, 0, 0)
 					if not self.bw:
 						pclr = self.options.clrperegrin
 					draw.text((x+summa+offset+wr, y+(self.LINE_HEIGHT-hp)/2), partxt, fill=pclr, font=self.fntAspects)
 					draw.text((x+summa+offset+wr+wp+wsp, y+(self.LINE_HEIGHT-ha)/2), angletxt, fill=txtclr, font=self.fntText)
 				elif self.pds.pds[idx].sig == primdirs.PrimDir.LOF:
-					lofclr = (0,0,0)
+					lofclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							lofclr = self.options.clrindividual[astrology.SE_MEAN_NODE+1]
@@ -756,18 +785,18 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 							lofclr = self.options.clrperegrin
 
 					sigtxt = common.common.fortune
-					wp,hp = draw.textsize(sigtxt, self.fntMorinus)
+					wp, hp = draw.textsize(sigtxt, self.fntMorinus)
 
 					extra = 0
 					offset = (offs[i]-(wp+extra))/2
 
 					if self.pds.pds[idx].mundane:
 						sigasptxt = common.common.Aspects[self.pds.pds[idx].sigasp]
-						wa,ha = draw.textsize(sigasptxt, self.fntAspects)
-						wsp,hsp = draw.textsize(' ', self.fntText)
-						extra = wa+wsp
-						offset = (offs[i]-(wp+extra))/2
-						clrasp = (0,0,0)
+						wa, ha = draw.textsize(sigasptxt, self.fntAspects)
+						wsp, hsp = draw.textsize(' ', self.fntText)
+						extra = wa + wsp
+						offset = (offs[i]-(wp+extra)) / 2
+						clrasp = (0, 0, 0)
 						if not self.bw:
 							clrasp = self.options.clraspect[self.pds.pds[idx].sigasp]
 						draw.text((x+summa+offset, y+(self.LINE_HEIGHT-ha)/2), sigasptxt, fill=clrasp, font=self.fntAspects)
@@ -775,44 +804,44 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 					draw.text((x+summa+offset+extra, y+(self.LINE_HEIGHT-hp)/2), sigtxt, fill=lofclr, font=self.fntMorinus)
 				elif self.pds.pds[idx].sig == primdirs.PrimDir.SYZ:
 					sigtxt = mtexts.txts['Syzygy']
-					wp,hp = draw.textsize(sigtxt, self.fntText)
+					wp, hp = draw.textsize(sigtxt, self.fntText)
 					offset = (offs[i]-wp)/2
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), sigtxt, fill=txtclr, font=self.fntText)
 				elif self.pds.pds[idx].sig == primdirs.PrimDir.CUSTOMERPD:
 					sigtxt = mtexts.txts['User2']
-					wp,hp = draw.textsize(sigtxt, self.fntText)
+					wp, hp = draw.textsize(sigtxt, self.fntText)
 					offset = (offs[i]-wp)/2
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hp)/2), sigtxt, fill=txtclr, font=self.fntText)
 				elif self.pds.pds[idx].sig >= primdirs.PrimDir.OFFSANGLES and self.pds.pds[idx].sig < primdirs.PrimDir.LOF:#Sig is Asc,MC or HC
 					if self.pds.pds[idx].sig <= primdirs.PrimDir.IC:
 						angles = (mtexts.txts['Asc'], mtexts.txts['Dsc'], mtexts.txts['MC'], mtexts.txts['IC'])
 						anglestxt = angles[self.pds.pds[idx].sig-primdirs.PrimDir.OFFSANGLES]
-						ws,hs = draw.textsize(anglestxt, self.fntText)
+						ws, hs = draw.textsize(anglestxt, self.fntText)
 						offset = (offs[i]-ws)/2
 						draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hs)/2), anglestxt, fill=txtclr, font=self.fntText)
 					else: #=>HC
 						HCs = (mtexts.txts['HC2'], mtexts.txts['HC3'], mtexts.txts['HC5'], mtexts.txts['HC6'], mtexts.txts['HC8'], mtexts.txts['HC9'], mtexts.txts['HC11'], mtexts.txts['HC12'])
 						hctxt = HCs[self.pds.pds[idx].sig-primdirs.PrimDir.HC2]
-						ws,hs = draw.textsize(hctxt, self.fntText)
+						ws, hs = draw.textsize(hctxt, self.fntText)
 						offset = (offs[i]-ws)/2
 						draw.text((x+summa+offset, y+(self.LINE_HEIGHT-hs)/2), hctxt, fill=txtclr, font=self.fntText)
 				else:#interplanetary
 					sigasptxt = ''
 					if self.pds.pds[idx].sigasp != chart.Chart.CONJUNCTIO:
 						sigasptxt = common.common.Aspects[self.pds.pds[idx].sigasp]
-					wa,ha = draw.textsize(sigasptxt, self.fntAspects)
-					wsp,hsp = draw.textsize(' ', self.fntText)
+					wa, ha = draw.textsize(sigasptxt, self.fntAspects)
+					wsp, hsp = draw.textsize(' ', self.fntText)
 					wspa = 0
 					if sigasptxt != '':
 						wspa = wsp
 					sigtxt = common.common.Planets[self.pds.pds[idx].sig]
-					ws,hs = draw.textsize(sigtxt, self.fntMorinus)
+					ws, hs = draw.textsize(sigtxt, self.fntMorinus)
 					offset = (offs[i]-(wa+wspa+ws))/2
-					clrasp = (0,0,0)
+					clrasp = (0, 0, 0)
 					if not self.bw:
 						clrasp = self.options.clraspect[self.pds.pds[idx].sigasp]
 					draw.text((x+summa+offset, y+(self.LINE_HEIGHT-ha)/2), sigasptxt, fill=clrasp, font=self.fntAspects)
-					tclr = (0,0,0)
+					tclr = (0, 0, 0)
 					if not self.bw:
 						if self.options.useplanetcolors:
 							objidx = self.pds.pds[idx].sig
@@ -825,7 +854,7 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 			elif i == 5:#Arc
 				arc = (int(self.pds.pds[idx].arc*1000))/1000.0
 				arctxt = str(arc)
-				w,h = draw.textsize(arctxt, self.fntText)
+				w, h = draw.textsize(arctxt, self.fntText)
 				offset = (offs[i]-w)/2
 				draw.text((x+summa+offset, y+(self.LINE_HEIGHT-h)/2), arctxt, fill=txtclr, font=self.fntText)
 			elif i == 6:#Date
@@ -833,13 +862,8 @@ class PrimDirsListWnd(wx.ScrolledWindow):
 #				ho, mi, se = util.decToDeg(h)
 #				year, month, day, extraday = util.revConvDate(self.pds.pds[idx].time)
 				txt = (str(year)).rjust(4)+'.'+(str(month)).zfill(2)+'.'+(str(day)).zfill(2)
-				w,h = draw.textsize(txt, self.fntText)
+				w, h = draw.textsize(txt, self.fntText)
 				offset = (offs[i]-w)/2
 				draw.text((x+summa+offset, y+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
 
 			summa += offs[i]
-
-
-
-
- 

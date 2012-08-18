@@ -214,7 +214,8 @@ class MFrame(wx.Frame):
 		self.mcharts.Append(self.ID_Elections, mtexts.menutxts['PMElections'], mtexts.menutxts['PMElectionsDoc'])
 		self.mcharts.Append(self.ID_SquareChart, mtexts.menutxts['PMSquareChart'], mtexts.menutxts['PMSquareChartDoc'])
 		self.mcharts.Append(self.ID_ProfectionsChart, mtexts.menutxts['PMProfections'], mtexts.menutxts['PMProfectionsDoc'])
-		self.mcharts.Append(self.ID_MundaneChart, mtexts.menutxts['PMMundane'], mtexts.menutxts['PMMundaneDoc'])
+		# FIXIT: Mundane function -> program hangs
+		#self.mcharts.Append(self.ID_MundaneChart, mtexts.menutxts['PMMundane'], mtexts.menutxts['PMMundaneDoc'])
 
 		#Options-menu
 		self.mhousesystem = wx.Menu()
@@ -2637,7 +2638,6 @@ class MFrame(wx.Frame):
 		self.mtable.Enable(self.ID_CustomerSpeculum, bEnable)
 		self.mtable.Enable(self.ID_PrimaryDirs, bEnable)
 
-		# FIXIT: find the bug with endless loop, after fixing the bugs -> enable menu ; False to bEnable
 		self.mcharts.Enable(self.ID_Transits, bEnable)
 		self.mcharts.Enable(self.ID_Revolutions, bEnable)
 		self.mcharts.Enable(self.ID_SunTransits, bEnable)
@@ -2645,7 +2645,8 @@ class MFrame(wx.Frame):
 		self.mcharts.Enable(self.ID_Elections, bEnable)
 		self.mcharts.Enable(self.ID_SquareChart, bEnable)
 		self.mcharts.Enable(self.ID_ProfectionsChart, bEnable)
-		self.mcharts.Enable(self.ID_MundaneChart, False)
+		# FIXIT: find the bug with endless loop, after fixing the bugs -> enable menu ; False to bEnable
+		# self.mcharts.Enable(self.ID_MundaneChart, False)
 
 
 	def enableOptMenus(self, bEnable):

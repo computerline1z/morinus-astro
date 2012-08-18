@@ -3,17 +3,23 @@
 # createapp.sh
 #
 #   tasks:   
-#       - creates app bundle for Python morinus script
-#       - creates dmg volume for distribution
+#       - creates app bundle for Python morinus script in following steps
+#			- creates app bundle with Python setup.py
+#			- copy Python framework
 #
 #   options:
 #       -- clean    cleanes the distribution files
 #       -- create   creates the distribution
+#       -- ephem   creates the distribution with Swiss ephemeris, valid only with create option
+#       -- revision revision number to create, valid only with create option
+#       -- rev      revision number to create, valid only with create option
+#       -- help     displays help
 #
 # Created by Vasek (vaclav@spirhanzl.cz) on 2012-07-13.
 # Based on bash script template from halfgaar 
 #       http://blog.bigsmoke.us/2011/01/05/bash-script-template
 #
+#	
 
 #
 # set -n # Uncomment to check script syntax, without execution.
@@ -93,9 +99,10 @@ dohelp()
   echo "    options:"
   echo "       -- clean    cleanes the distribution files"
   echo "       -- create   creates the distribution"
+  echo "       -- ephem   creates the distribution with Swiss ephemeris, valid only with create option"
   echo "       -- help     displays help"
   echo "       -- revision revision number"
-  echo "       -- rev      revision number"
+  echo "       -- rev      revision number to create, valid only with create option"
   echo ""
   echo "    examples:"
   echo "        createapp --create --rev 6.2.0"
@@ -129,6 +136,9 @@ while [ -n "$*" ]; do
     ;;
     "--create")
       opt_create="1"
+    ;;
+    "--ephem")
+      opt_ephem="1"
     ;;
     "--revision" | "--rev")
       opt_revision="$value"
@@ -168,6 +178,14 @@ fi
 # build distribution
 echo "--> setup.py with params = $prev_params"
 python setup.py py2app
+if [ -z "$opt_ephem" ]; then
+	if [ -f "dist/morinus.app/Contents/Resources/SWEP/Ephem/seas_00.se1" ]; then
+		echo "--> Build without Swiss Ephemeris files ..."
+		rm dist/morinus.app/Contents/Resources/SWEP/Ephem/*.se1
+	fi
+else
+	echo "--> Build with Swiss Ephemeris files ..."
+fi
 
 # copy Python frameworks - dirty hack :-)
 echo ""
