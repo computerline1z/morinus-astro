@@ -12,7 +12,7 @@ if [ -d "$TMPDIRDMG" ]; then
 fi
 mkdir $TMPDIRDMG
 
-hdiutil create -size 70m -fs HFS+ -volname morinus $TMPDIRDMG/morin-big.dmg
+hdiutil create -size 97m -fs HFS+ -volname morinus $TMPDIRDMG/morin-big.dmg
 
 hdiutil mount $TMPDIRDMG/morin-big.dmg
 
@@ -21,7 +21,7 @@ cp ./doc/README /Volumes/morinus/
 
 hdiutil eject /Volumes/morinus/
 
-DMGNAME="$TMPDIRDMG/morinus-6.2.0-r03.dmg"
+DMGNAME="$TMPDIRDMG/morinus-6.2.0-r04.dmg"
 echo $DMGNAME
 hdiutil convert $TMPDIRDMG/morin-big.dmg -format UDZO -imagekey zlib-level=9 -o $DMGNAME
 
