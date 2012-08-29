@@ -362,7 +362,7 @@ class Options:
 						'almutenchart.opt', 'almutentopicalandparts.opt', 'ayanamsa.opt', 'colors.opt', 'housesystem.opt', 'nodes.opt', 'orbs.opt', 
 						 'primarydirs.opt', 'primarykeys.opt', 'fortune.opt', 'syzygy.opt', 'fixedstars.opt', 'profections.opt', 'pdsinchart.opt', 'languages.opt', 'autosave.opt')
 
-		# set Options directory and create if does not exist
+		# set Options directory and create it if does not exist
 		optdir = wx.StandardPaths_Get().GetUserConfigDir() + 'Morinus/Opts'
 		self.optsdirtxt = optdir
 		if not os.path.exists(optdir):

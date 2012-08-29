@@ -30,19 +30,12 @@ Author - Robert Nagy, robert.pluto@gmail.com (programming and astrology)
 Developers
   * Philippe Epaud(France); philipeau@free.fr (french translation)
   * Margherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)
-
   * Martin Gansten (Sweden); http://www.martingansten.com/ (astrology)
-
   * Jaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)
-
   * Roberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)
-
   * Petr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)
-
   * Endre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)
-
   * Denis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)
-
 
 Maintainer Mac OSX - Vaclav Spirhanzl (Czech Republic), vjs.morinus@gmail.com
 
@@ -54,6 +47,7 @@ Releases
 
 6.2.0r04 - 2012 August 19
 - added Swiss ephemeris files
+- created two dmg packages, one with Swiss ephemeris data files and one without
 
 6.2.0r03 - 2012 August 1
 - fixed - problem with displaying of Synastry result

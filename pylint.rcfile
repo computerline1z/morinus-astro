@@ -37,6 +37,7 @@ load-plugins=
 # C0111 - docstring missing
 # W0312 - Found indentation with tabs instead of spaces
 # C0103 - Invalid name
+# W0191 - indentation contains tabs
 disable=C0301,C0111, W0312, C0103
 
 
