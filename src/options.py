@@ -363,10 +363,11 @@ class Options:
 						 'primarydirs.opt', 'primarykeys.opt', 'fortune.opt', 'syzygy.opt', 'fixedstars.opt', 'profections.opt', 'pdsinchart.opt', 'languages.opt', 'autosave.opt')
 
 		# set Options directory and create it if does not exist
-		optdir = wx.StandardPaths_Get().GetUserConfigDir() + 'Morinus/Opts'
+		app_name = wx.Config().GetAppName()
+		optdir = wx.StandardPaths_Get().GetUserConfigDir() + app_name + '/Opts'
 		self.optsdirtxt = optdir
 		if not os.path.exists(optdir):
-			optdirparent = wx.StandardPaths_Get().GetUserConfigDir() + 'Morinus'
+			optdirparent = wx.StandardPaths_Get().GetUserConfigDir() + app_name
 			if not os.path.exists(optdirparent):
 				os.mkdir(optdirparent)
 			os.mkdir(optdir)

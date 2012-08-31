@@ -24,6 +24,7 @@ import wx
 import options
 import mtexts
 import morin
+import infos
 
 
 class Morinus(wx.App):
@@ -34,6 +35,7 @@ class Morinus(wx.App):
 		except:
 			pass
 
+		self.SetAppName(infos.MYAPPNAME)
 		wx.SetDefaultPyEncoding('utf-8')
 		opts = options.Options()
 		mtexts.setLang(opts.langid)
@@ -44,5 +46,6 @@ class Morinus(wx.App):
 		return True
 
 
-app = Morinus(0)
-app.MainLoop()
+if __name__ == '__main__':
+	app = Morinus(0)
+	app.MainLoop()

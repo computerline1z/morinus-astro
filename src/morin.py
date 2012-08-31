@@ -114,7 +114,7 @@ class MFrame(wx.Frame):
 		self.title = title
 		self.origtitle = title
 		self.hortitle = title
-		
+
 		self.options = opts
 
 		common.common = common.Common()
@@ -419,7 +419,7 @@ class MFrame(wx.Frame):
 
 		os.environ['SE_EPHE_PATH'] = ''
 		astrology.swe_set_ephe_path(common.common.ephepath)
-		
+
 		self.drawSplash()
 
 		self.Bind(EVT_PDREADY, self.OnPDReady)
@@ -473,7 +473,7 @@ class MFrame(wx.Frame):
 			changed = dlg.check(self.horoscope)
 
 			if self.dirty and changed:
-		 		dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '', wx.YES_NO|wx.ICON_QUESTION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '', wx.YES_NO|wx.ICON_QUESTION)
 				if dlgm.ShowModal() == wx.ID_NO:
 					self.save()
 				dlgm.Destroy()#
@@ -590,7 +590,7 @@ class MFrame(wx.Frame):
 
 		lon = math.fabs(lon)
 		lat = math.fabs(lat)
-		
+
 		ld, lm, ls = util.decToDeg(lon)
 		lad, lam, las = util.decToDeg(lat)
 
@@ -679,12 +679,12 @@ class MFrame(wx.Frame):
 
 			if (not self.splash) and (not dontclose):
 				self.closeChildWnds()
-			
+
 			place = chart.Place(place, deglon, minlon, 0, east, deglat, minlat, seclat, north, altitude)
 			time = chart.Time(year, month, day, hour, minute, second, bc, cal, zt, plus, zh, zm, daylightsaving, place)
 			chrt = chart.Chart(name, male, time, place, htype, notes, self.options)
 		except IOError:
- 			dlgm = wx.MessageDialog(self, mtexts.txts['FileError'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['FileError'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()#
 
@@ -714,12 +714,12 @@ class MFrame(wx.Frame):
 				fpath+=u'.hor'
 			#Check if fpath already exists!?
 			if os.path.isfile(fpath):
-	 			dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
 				if dlgm.ShowModal() == wx.ID_NO:
 					dlgm.Destroy()#
 					return
 				dlgm.Destroy()#
-			
+
 			try:
 				f = open(fpath, 'wb')		
 				pickle.dump(self.horoscope.name, f)
@@ -755,7 +755,7 @@ class MFrame(wx.Frame):
 				f.close()
 				self.dirty = False
 			except IOError:
-	 			dlgm = wx.MessageDialog(self, mtexts.txts['FileError'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['FileError'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
@@ -783,7 +783,7 @@ class MFrame(wx.Frame):
 				fpath+=u'.bmp'
 			#Check if fpath already exists!?
 			if os.path.isfile(fpath):
- 				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
 				if dlgm.ShowModal() == wx.ID_NO:
 					dlgm.Destroy()#
 					return
@@ -920,7 +920,7 @@ class MFrame(wx.Frame):
 
 			self.destroyDlgs()
 		else:
- 			dlgm = wx.MessageDialog(self, mtexts.txts['FileError'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['FileError'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()#
 			self.filehistory.RemoveFileFromHistory(fileNum)
@@ -1172,7 +1172,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1200,7 +1200,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1248,10 +1248,10 @@ class MFrame(wx.Frame):
 						pchartpls = chart.Chart(self.horoscope.name, self.horoscope.male, self.horoscope.time, self.horoscope.place, chart.Chart.PROFECTION, '', self.options, False, proftype, self.options.usezodprojsprof)
 						#modify planets, ...
 						pchart.planets.calcMundaneProfPos(pchart.houses.ascmc2, pchartpls.planets.planets, self.horoscope.place.lat, self.horoscope.obl[0])
-	
+
 						#modify lof
 						pchart.fortune.calcMundaneProfPos(pchart.houses.ascmc2, pchartpls.fortune, self.horoscope.place.lat, self.horoscope.obl[0])
-	
+
 				pcharts.append((pchart, y+cyc, m, d, t))
 				cyc += 1
 
@@ -1299,7 +1299,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1389,7 +1389,7 @@ class MFrame(wx.Frame):
 
 				pdw.Show(True)
 			else:
- 				dlgm = wx.MessageDialog(self, mtexts.txts['NoPDsWithSettings'], mtexts.txts['Information'], wx.OK|wx.ICON_INFORMATION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['NoPDsWithSettings'], mtexts.txts['Information'], wx.OK|wx.ICON_INFORMATION)
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
@@ -1406,7 +1406,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1441,7 +1441,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1493,10 +1493,10 @@ class MFrame(wx.Frame):
 
 					rw = transitframe.TransitFrame(self, self.title.replace(mtexts.typeList[self.horoscope.htype], mtexts.typeList[revtype]+' ('+str(time.year)+'.'+common.common.months[time.month-1]+'.'+str(time.day)+' '+str(time.hour)+':'+str(time.minute).zfill(2)+':'+str(time.second).zfill(2)+'('+mtexts.txts['GMT']+'))'), revolution, self.horoscope, self.options)
 					rw.Show(True)
-		
+
 				dlg.Destroy()
 			else:
-		 		dlgm = wx.MessageDialog(self, mtexts.txts['CouldnotComputeRevolution'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['CouldnotComputeRevolution'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
@@ -1561,7 +1561,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1583,7 +1583,7 @@ class MFrame(wx.Frame):
 			for i in range(len(btns)):
 				if btns[i]:
 					trlon = lons[i]
-			
+
 			suntrs = suntransits.SunTransits()
 			result = suntrs.compute(int(self.suntrdlg.year.GetValue()), int(self.suntrdlg.month.GetValue()), int(self.suntrdlg.day.GetValue()), self.horoscope, trlon)
 
@@ -1616,7 +1616,7 @@ class MFrame(wx.Frame):
 				dlg.Destroy()
 
 			else:
-	 			dlgm = wx.MessageDialog(self, mtexts.txts['CouldnotComputeTransit'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
+				dlgm = wx.MessageDialog(self, mtexts.txts['CouldnotComputeTransit'], mtexts.txts['Error'], wx.OK|wx.ICON_EXCLAMATION)
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
@@ -1627,7 +1627,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1690,7 +1690,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1722,7 +1722,7 @@ class MFrame(wx.Frame):
 			self.handleStatusBar(True)
 
 		if self.horoscope.time.bc:
-	 		dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['NotAvailable'], '', wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			return
@@ -1763,7 +1763,7 @@ class MFrame(wx.Frame):
 
 					#modify lof
 					pchart.fortune.calcMundaneProfPos(pchart.houses.ascmc2, pchartpls.fortune, self.horoscope.place.lat, self.horoscope.obl[0])
-	
+
 					#recalc AspMatrix
 					pchart.calcAspMatrix()
 
@@ -2425,7 +2425,7 @@ class MFrame(wx.Frame):
 
 		val = dlg.ShowModal()
 		if val == wx.ID_OK:	
-			
+
 			if dlg.check(self.options):
 				self.enableOptMenus(True)
 
@@ -2545,7 +2545,7 @@ class MFrame(wx.Frame):
 
 		if not os.path.exists(fname):
 			txt = fname+' '+mtexts.txts['NotFound']
-	 		dlgm = wx.MessageDialog(self, txt, mtexts.txts['Error'], wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, txt, mtexts.txts['Error'], wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 		else:
@@ -2564,10 +2564,10 @@ class MFrame(wx.Frame):
 		info.Copyright = mtexts.txts['FreeSoft']
 		info.Description = mtexts.txts['Description']+str(astrology.swe_version())
 		info.WebSite = ('http://sites.google.com/site/pymorinus/',\
-		               'http://sites.google.com/site/pymorinus/')
+					   'http://sites.google.com/site/pymorinus/')
 		info.Developers = [u'Robert Nagy (Hungary); robert.pluto@gmail.com (programming and astrology)\nPhilippe Epaud(France); philipeau@free.fr (french translation)\nMargherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)\nMartin Gansten (Sweden); http://www.martingansten.com/ (astrology)\nJaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)\nRoberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)\nPetr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)\nEndre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)\nDenis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)\nVáclav Jan Špirhanzl (Czech Rep.); vjs.morinus@gmail.com (MacOS version)']
 		info.License = mtexts.licensetxt
-		
+
 		wx.AboutBox(info)
 
 
@@ -2714,7 +2714,7 @@ class MFrame(wx.Frame):
 
 		if not os.path.exists(fname):
 			txt = fname+' '+mtexts.txts['NotFound']
-	 		dlgm = wx.MessageDialog(self, txt, mtexts.txts['Error'], wx.OK|wx.ICON_INFORMATION)
+			dlgm = wx.MessageDialog(self, txt, mtexts.txts['Error'], wx.OK|wx.ICON_INFORMATION)
 			dlgm.ShowModal()
 			dlgm.Destroy()
 			res = False
