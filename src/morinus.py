@@ -41,6 +41,7 @@ class Morinus(wx.App):
 		mtexts.setLang(opts.langid)
 
 		frame = morin.MFrame(None, -1, mtexts.txts['Morinus'], opts)
+		self.SetTopWindow(frame)
 		frame.Show(True)
 
 		return True

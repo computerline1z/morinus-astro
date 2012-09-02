@@ -99,14 +99,16 @@ import ephemcalc
 import wx.lib.newevent
 import math #solar precession
 
+import mrclasses
+
 (PDReadyEvent, EVT_PDREADY) = wx.lib.newevent.NewEvent()
 pdlock = thread.allocate_lock()
 
 
-class MFrame(wx.Frame):
+class MFrame(mrclasses.MrTopFrame):
 
 	def __init__(self, parent, id, title, opts):
-		wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition, wx.Size(640, 400))
+		mrclasses.MrTopFrame.__init__(self, parent, id, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		self.fpath = ''
 		self.fpathhors = u'Hors'
@@ -134,22 +136,28 @@ class MFrame(wx.Frame):
 		self.mhelp = wx.Menu()
 
 		#Horoscope-menu
-		self.ID_New, self.ID_Data, self.ID_Load, self.ID_Save, self.ID_SaveAsBitmap, self.ID_Synastry, self.ID_FindTime, self.ID_Ephemeris, self.ID_Close, self.ID_Exit = range(100, 110)
+		(self.ID_New, self.ID_Data, self.ID_Load, self.ID_Save, self.ID_SaveAsBitmap, self.ID_Synastry, self.ID_FindTime,\
+			self.ID_Ephemeris, self.ID_Close, self.ID_Exit) = range(100, 110)
 
 		#Table-menu
-		(self.ID_Positions, self.ID_TAlmutens, self.ID_AlmutenZodiacal, self.ID_AlmutenChart, self.ID_AlmutenTopical, self.ID_Misc, self.ID_MunPos, 
-		self.ID_Antiscia, self.ID_Aspects, self.ID_Midpoints, self.ID_RiseSet, self.ID_Speeds, self.ID_ZodPars, self.ID_FixStars, self.ID_FixStarsAsps, 
-		self.ID_Arabians, self.ID_Strip, self.ID_PlanetaryHours, self.ID_ExactTransits, self.ID_Profections, self.ID_CustomerSpeculum, self.ID_PrimaryDirs) = range(110,132)
+		(self.ID_Positions, self.ID_TAlmutens, self.ID_AlmutenZodiacal, self.ID_AlmutenChart, self.ID_AlmutenTopical,
+		 self.ID_Misc, self.ID_MunPos,	self.ID_Antiscia, self.ID_Aspects, self.ID_Midpoints, self.ID_RiseSet,
+		 self.ID_Speeds, self.ID_ZodPars, self.ID_FixStars, self.ID_FixStarsAsps, self.ID_Arabians, self.ID_Strip,
+		 self.ID_PlanetaryHours, self.ID_ExactTransits, self.ID_Profections, self.ID_CustomerSpeculum,
+		 self.ID_PrimaryDirs) = range(110,132)
 
 		#Charts-menu
-		self.ID_Transits, self.ID_Revolutions, self.ID_SunTransits, self.ID_SecondaryDirs, self.ID_Elections, self.ID_SquareChart, self.ID_ProfectionsChart, self.ID_MundaneChart = range(140, 148)
+		(self.ID_Transits, self.ID_Revolutions, self.ID_SunTransits, self.ID_SecondaryDirs, self.ID_Elections,
+		 self.ID_SquareChart, self.ID_ProfectionsChart, self.ID_MundaneChart) = range(140, 148)
 
 		#Options-menu
 		(self.ID_Appearance1, self.ID_Appearance2, self.ID_Symbols, self.ID_Dignities, self.ID_MinorDignities, self.ID_Triplicities, self.ID_Terms, 
 		self.ID_Decans, self.ID_Almutens, self.ID_ChartAlmuten, self.ID_Topical, self.ID_Colors, self.ID_Ayanamsha, self.ID_HouseSystem, 
 		self.ID_Nodes, self.ID_Orbs, self.ID_PrimaryDirsOpt, self.ID_PrimaryKeys, self.ID_PDsInChartOpt, self.ID_PDsInChartOptZod, self.ID_PDsInChartOptMun, self.ID_LotOfFortune, self.ID_ArabicParts, self.ID_Syzygy, self.ID_FixStarsOpt, self.ID_ProfectionsOpt, self.ID_Languages, self.ID_AutoSaveOpts, self.ID_SaveOpts, self.ID_Reload) = range(150, 180)
 
-		self.ID_Housesystem1, self.ID_Housesystem2, self.ID_Housesystem3, self.ID_Housesystem4, self.ID_Housesystem5, self.ID_Housesystem6, self.ID_Housesystem7, self.ID_Housesystem8, self.ID_Housesystem9, self.ID_Housesystem10, self.ID_Housesystem11, self.ID_Housesystem12 = range(1050, 1062)
+		(self.ID_Housesystem1, self.ID_Housesystem2, self.ID_Housesystem3, self.ID_Housesystem4, self.ID_Housesystem5,
+		 self.ID_Housesystem6, self.ID_Housesystem7, self.ID_Housesystem8, self.ID_Housesystem9, self.ID_Housesystem10,
+		 self.ID_Housesystem11, self.ID_Housesystem12) = range(1050, 1062)
 
 		self.ID_NodeMean = 1070
 		self.ID_NodeTrue = 1071
@@ -160,6 +168,9 @@ class MFrame(wx.Frame):
 		#Help-menu
 		self.ID_Help = 190
 		self.ID_About = 191
+
+		# Close window
+		self.ID_CloseWindow = 197
 
 		#Horoscope-menu
 		self.mhoros.Append(self.ID_New, mtexts.menutxts['HMNew'], mtexts.menutxts['HMNewDoc'])
@@ -172,6 +183,8 @@ class MFrame(wx.Frame):
 		self.mhoros.Append(self.ID_Ephemeris, mtexts.menutxts['HMEphemeris'], mtexts.menutxts['HMEphemerisDoc'])
 		self.mhoros.AppendSeparator()
 		self.mhoros.Append(self.ID_Close, mtexts.menutxts['HMClose'], mtexts.menutxts['HMCloseDoc'])
+		# TODO: change and add text for menu and documentation
+		self.mhoros.Append(self.ID_CloseWindow, 'Close window\tCtrl+W', 'Close active window')
 		self.mhoros.AppendSeparator()
 		self.mhoros.Append(self.ID_Exit, mtexts.menutxts['HMExit'], mtexts.menutxts['HMExitDoc'])
 
@@ -304,6 +317,7 @@ class MFrame(wx.Frame):
 		self.Bind(wx.EVT_MENU, self.onSynastry, id=self.ID_Synastry)
 		self.Bind(wx.EVT_MENU, self.onFindTime, id=self.ID_FindTime)
 		self.Bind(wx.EVT_MENU, self.onEphemeris, id=self.ID_Ephemeris)
+		self.Bind(wx.EVT_MENU, self.onCloseWindow, id=self.ID_CloseWindow)
 		self.Bind(wx.EVT_MENU, self.onClose, id=self.ID_Close)
 		self.Bind(wx.EVT_MENU, self.onExit, id=self.ID_Exit)
 
@@ -403,6 +417,7 @@ class MFrame(wx.Frame):
 		self.CreateStatusBar()
 
 		self.enableMenus(False)
+		self.mhoros.Enable(self.ID_CloseWindow, False)
 
 		self.moptions.Enable(self.ID_SaveOpts, False)
 		if self.options.checkOptsFiles():
@@ -866,12 +881,18 @@ class MFrame(wx.Frame):
 		self.handleCaption(False)
 		self.Refresh()	
 
+	def onCloseWindow(self, event):
+		app = wx.GetApp()
+		topwindow = app.GetTopWindow()
+		if topwindow.activewindow is not None:
+			topwindow.activewindow.Destroy()
 
 	def onExit(self, event):
 		if self.dirty:
-			dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '', wx.YES_NO|wx.ICON_QUESTION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '',
+									wx.YES_NO|wx.ICON_QUESTION|wx.NO_DEFAULT)
 			if dlgm.ShowModal() == wx.ID_NO:
-				dlgm.Destroy()#
+				dlgm.Destroy() #
 				return
 			dlgm.Destroy()#
 
@@ -884,7 +905,8 @@ class MFrame(wx.Frame):
 
 	def OnFileHistory(self, evt):
 		if self.dirty:
-			dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '', wx.YES_NO|wx.ICON_QUESTION)
+			dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '',
+									wx.YES_NO|wx.ICON_QUESTION|wx.NO_DEFAULT)
 			if dlgm.ShowModal() == wx.ID_NO:
 				dlgm.Destroy()#
 				return

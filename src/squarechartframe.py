@@ -1,11 +1,12 @@
 import wx
 import squarechartwnd
 import mtexts
+import mrclasses
 
 
-class SquareChartFrame(wx.Frame):
+class SquareChartFrame(mrclasses.MrSecondFrame):
 	def __init__(self, parent, title, chrt, opts):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(SquareChartFrame, self).__init__( parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		self.chart = chrt
 		self.options = opts

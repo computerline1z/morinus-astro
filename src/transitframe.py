@@ -14,18 +14,20 @@ import wx.lib.newevent
 import thread
 import mtexts
 
+import mrclasses
+
 (PDReadyEvent, EVT_PDREADY) = wx.lib.newevent.NewEvent()
 pdlock = thread.allocate_lock()
 
 
-class TransitFrame(wx.Frame):
+class TransitFrame(mrclasses.MrSecondFrame):
 	CHART = 0
 	COMPOUND = 1
 	POSITIONS = 2
 	SQUARE = 3
 
 	def __init__(self, parent, title, chrt, radix, options, sel=0):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(TransitFrame, self).__init__(parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		self.chart = chrt
 		self.radix = radix
