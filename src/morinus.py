@@ -25,10 +25,12 @@ import options
 import mtexts
 import morin
 import infos
+import mrbaseapp
 
 
-class Morinus(wx.App):
+class Morinus(mrbaseapp.MrApp):
 	def OnInit(self):
+		rval = super(Morinus, self).OnInit()
 		try:
 			progPath = os.path.dirname(sys.argv[0])
 			os.chdir(progPath)
@@ -44,7 +46,7 @@ class Morinus(wx.App):
 		self.SetTopWindow(frame)
 		frame.Show(True)
 
-		return True
+		return rval
 
 
 if __name__ == '__main__':
