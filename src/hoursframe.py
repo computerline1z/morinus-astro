@@ -1,13 +1,12 @@
 import wx
 import hourswnd
+import mrclasses
 
 
-class HoursFrame(wx.Frame):
+class HoursFrame(mrclasses.MrSecondFrame):
 	def __init__(self, parent, title, chrt, options):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(HoursFrame, self).__init__(parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		sw = hourswnd.HoursWnd(self, chrt, options, parent)
-		
-		self.SetMinSize((200,200))
 
-
+		self.SetMinSize((200, 200))

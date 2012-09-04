@@ -1,10 +1,11 @@
 import wx
 import almutenchartwnd
+import mrclasses
 
 
-class AlmutenChartFrame(wx.Frame):
+class AlmutenChartFrame(mrclasses.MrSecondFrame):
 	def __init__(self, parent, title, chrt, options):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(AlmutenChartFrame, self).__init__(parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		aw = almutenchartwnd.AlmutenChartWnd(self, chrt, options, parent)
 		

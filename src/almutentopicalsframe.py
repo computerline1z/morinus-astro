@@ -1,14 +1,12 @@
 import wx
-import chart
 import almutentopicalswnd
-import mtexts
-import util
+import mrclasses
 
 
-class AlmutenTopicalsFrame(wx.Frame):
+class AlmutenTopicalsFrame(mrclasses.MrSecondFrame):
 
 	def __init__(self, parent, chrt, title):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, size=wx.Size(640, 400))
+		super(AlmutenTopicalsFrame, self).__init__(parent, -1, title, wx.DefaultPosition, size=wx.Size(640, 400))
 
 		self.parent = parent
 		self.chart = chrt

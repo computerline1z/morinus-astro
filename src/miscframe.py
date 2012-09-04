@@ -1,10 +1,11 @@
 import wx
 import miscwnd
+import mrclasses
 
 
-class MiscFrame(wx.Frame):
+class MiscFrame(mrclasses.MrSecondFrame):
 	def __init__(self, parent, title, chrt, options):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(MiscFrame, self).__init__(parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		sw = miscwnd.MiscWnd(self, chrt, options, parent)
 		

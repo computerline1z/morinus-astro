@@ -1,13 +1,12 @@
 import wx
 import arabicpartswnd
+import mrclasses
 
 
-class ArabicPartsFrame(wx.Frame):
+class ArabicPartsFrame(mrclasses.MrSecondFrame):
 	def __init__(self, parent, title, chrt, options):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(ArabicPartsFrame, self).__init__(parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		sw = arabicpartswnd.ArabicPartsWnd(self, chrt, options, parent)
-		
-		self.SetMinSize((200,200))
 
-
+		self.SetMinSize((200, 200))

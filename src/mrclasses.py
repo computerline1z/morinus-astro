@@ -3,6 +3,12 @@
 """
 mrclasses.py
 
+	defines base classes for application windows and frames
+
+	MrTopFrame      top application frame
+	MrSecondFrame   other frames
+	MrWindow        base window class
+
 Created by Vaclav Spirhanzl on 2012-08-31.
 """
 
@@ -24,12 +30,14 @@ class MrTopFrame(wx.Frame):
 
 	@activewindow.setter
 	def activewindow(self, value):
-		self._activewindow = value
+		if isinstance(value, MrTopFrame) or isinstance(value, MrSecondFrame) or value is None:
+			self._activewindow = value
+		else:
+			raise ValueError('property activewindow')
 
 	@activewindow.deleter
 	def activewindow(self):
-	# TODO: implement implementation error, activatewindow must not be deleted
-		pass
+		raise NotImplementedError('property - activewindow can not be deleted')
 
 
 class MrSecondFrame(wx.Frame):
@@ -42,11 +50,12 @@ class MrSecondFrame(wx.Frame):
 	def OnActivate(self, event):
 		app = wx.GetApp()
 		topwindow = app.GetTopWindow()
+		is_active = event.Active
 		if event.Active:    # window activated
-			topwindow.mhoros.Enable(topwindow.ID_CloseWindow, True)
+			topwindow.mhoros.Enable(topwindow.ID_CloseWindow, is_active)
 			topwindow.activewindow = self
 		else:               # window deactivated
-			topwindow.mhoros.Enable(topwindow.ID_CloseWindow, False)
+			topwindow.mhoros.Enable(topwindow.ID_CloseWindow, is_active)
 			topwindow.activewindow = None
 
 		event.Skip()        # propagates event

@@ -1,10 +1,11 @@
 import wx
 import almutenzodswnd
+import mrclasses
 
 
-class AlmutenZodsFrame(wx.Frame):
+class AlmutenZodsFrame(mrclasses.MrSecondFrame):
 	def __init__(self, parent, title, chrt, options):
-		wx.Frame.__init__(self, parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
+		super(AlmutenZodsFrame, self).__init__(parent, -1, title, wx.DefaultPosition, wx.Size(640, 400))
 
 		aw = almutenzodswnd.AlmutenZodsWnd(self, chrt, options, parent)
 		

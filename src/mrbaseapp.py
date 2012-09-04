@@ -31,6 +31,13 @@ def ExceptionHook(exctype, value, trace):
 
 
 class MrApp(wx.App):
+	def __init__(self, *args, **kwargs):
+		# __init__ is called only after OnInit()
+		super(MrApp, self).__init__(*args, **kwargs)
+		if not sys.excepthook is ExceptionHook:
+			sys.excepthook = ExceptionHook
+		return
+
 	def OnInit(self):
 		sys.excepthook = ExceptionHook
 		return True

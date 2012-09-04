@@ -30,7 +30,7 @@ import mrbaseapp
 
 class Morinus(mrbaseapp.MrApp):
 	def OnInit(self):
-		rval = super(Morinus, self).OnInit()
+		super(Morinus, self).OnInit()
 		try:
 			progPath = os.path.dirname(sys.argv[0])
 			os.chdir(progPath)
@@ -46,7 +46,7 @@ class Morinus(mrbaseapp.MrApp):
 		self.SetTopWindow(frame)
 		frame.Show(True)
 
-		return rval
+		return True
 
 
 if __name__ == '__main__':
