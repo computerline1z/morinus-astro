@@ -439,7 +439,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		self.Bind(EVT_PDREADY, self.OnPDReady)
 
-
 	#Horoscope-menu	
 	def onNew(self, event):
 		dlg = personaldatadlg.PersonalDataDlg(self, self.options.langid)
@@ -472,7 +471,6 @@ class MFrame(mrclasses.MrTopFrame):
 #			self.calc()##
 
 		dlg.Destroy()
-
 
 	def onData(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -520,7 +518,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def showFindTime(self, bc, fnd, arplac):
 		place = chart.Place('London, GBR', 0, 6, 0, False, 51, 31, 0, True, 10)
 
@@ -550,7 +547,6 @@ class MFrame(mrclasses.MrTopFrame):
 		self.Refresh()
 		self.handleStatusBar(True)
 		self.handleCaption(True)
-
 
 	def calcPlace(self, gmt, gmst0, mclon, asclon, obl):
 		robl = math.radians(obl)
@@ -611,7 +607,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		return chart.Place('Place', ld, lm, ls, east, lad, lam, las, north, 10)
 
-
 	def onLoad(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -636,11 +631,11 @@ class MFrame(mrclasses.MrTopFrame):
 			fpath = dlg.GetPath()
 
 			if not fpath.endswith(u'.hor'):
-				fpath+=u'.hor'
+				fpath += u'.hor'
 
 			chrt = self.subLoad(fpath, dpath)
 
-			if chrt != None:
+			if chrt is not None:
 				self.horoscope = chrt
 				self.splash = False	
 				self.drawBkg()
@@ -656,7 +651,6 @@ class MFrame(mrclasses.MrTopFrame):
 				self.filehistory.AddFileToHistory(fpath)
 
 		dlg.Destroy()#
-
 
 	def subLoad(self, fpath, dpath, dontclose = False):
 		chrt = None
@@ -705,14 +699,12 @@ class MFrame(mrclasses.MrTopFrame):
 
 		return chrt 
 
-
 	def onSave(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
 			self.handleStatusBar(True)
 
 		self.save()
-
 
 	def save(self):
 		dlg = wx.FileDialog(self, mtexts.txts['SaveHor'], '', self.horoscope.name, mtexts.txts['HORFiles'], wx.FD_SAVE)
@@ -726,7 +718,7 @@ class MFrame(mrclasses.MrTopFrame):
 			fpath = dlg.GetPath()
 
 			if not fpath.endswith(u'.hor'):
-				fpath+=u'.hor'
+				fpath += u'.hor'
 			#Check if fpath already exists!?
 			if os.path.isfile(fpath):
 				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
@@ -776,7 +768,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()#
 
-
 	def onSaveAsBitmap(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -795,7 +786,7 @@ class MFrame(mrclasses.MrTopFrame):
 			dpath = dlg.GetDirectory()
 			fpath = dlg.GetPath()
 			if not fpath.endswith(u'.bmp'):
-				fpath+=u'.bmp'
+				fpath += u'.bmp'
 			#Check if fpath already exists!?
 			if os.path.isfile(fpath):
 				dlgm = wx.MessageDialog(self, mtexts.txts['FileExists'], mtexts.txts['Message'], wx.YES_NO|wx.YES_DEFAULT|wx.ICON_QUESTION)
@@ -808,7 +799,6 @@ class MFrame(mrclasses.MrTopFrame):
 			self.fpathimgs = dpath
 
 		dlg.Destroy()#
-
 
 	def onSynastry(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -827,17 +817,16 @@ class MFrame(mrclasses.MrTopFrame):
 			fpath = dlg.GetPath()
 
 			if not fpath.endswith(u'.hor'):
-				fpath+=u'.hor'
+				fpath += u'.hor'
 
 			chrt = self.subLoad(fpath, dpath, True)
 
 		dlg.Destroy()#
 
-		if chrt != None:
+		if chrt is not None:
 			txt = self.horoscope.name+u' - '+chrt.name+' '+mtexts.txts['Synastry']+' ('+str(chrt.time.origyear)+'.'+common.common.months[chrt.time.origmonth-1]+'.'+str(chrt.time.origday)+' '+str(chrt.time.hour)+':'+str(chrt.time.minute).zfill(2)+':'+str(chrt.time.second).zfill(2)+')'
 			tw = transitframe.TransitFrame(self, txt, chrt, self.horoscope, self.options, transitframe.TransitFrame.COMPOUND)
 			tw.Show(True)
-
 
 	def onFindTime(self, event):
 		findtimdlg = findtimedlg.FindTimeDlg(self)
@@ -846,7 +835,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 #		findtimdlg.ShowModal() # because the "Calculating"-dialog will also be modal and it enables the Menues of the MainFrame!!
 		findtimdlg.Show()
-
 
 	def onEphemeris(self, event):
 		ephemdlg = graphephemdlg.GraphEphemDlg(self)
@@ -859,7 +847,6 @@ class MFrame(mrclasses.MrTopFrame):
 			eph = ephemcalc.EphemCalc(year, self.options)
 			ephemfr = graphephemframe.GraphEphemFrame(self, mtexts.txts['Ephemeris'], year, eph.posArr, self.options)
 			ephemfr.Show(True)
-
 
 	def onClose(self, event):
 		if self.dirty:
@@ -902,7 +889,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		self.Destroy()
 
-
 	def OnFileHistory(self, evt):
 		if self.dirty:
 			dlgm = wx.MessageDialog(self, mtexts.txts['DiscardCurrHor'], '',
@@ -922,7 +908,7 @@ class MFrame(mrclasses.MrTopFrame):
 			dname = os.path.dirname(path)
 			chrt = self.subLoad(path, dname)
 
-			if chrt != None:
+			if chrt is not None:
 				self.horoscope = chrt
 				self.splash = False	
 				self.drawBkg()
@@ -947,29 +933,27 @@ class MFrame(mrclasses.MrTopFrame):
 			dlgm.Destroy()#
 			self.filehistory.RemoveFileFromHistory(fileNum)
 
-
 	def destroyDlgs(self):
-		if self.trdatedlg != None:
+		if self.trdatedlg is not None:
 			self.trdatedlg.Destroy()
 			self.trdatedlg = None
-		if self.trmondlg != None:
+		if self.trmondlg is not None:
 			self.trmondlg.Destroy()
 			self.trmondlg = None
-		if self.suntrdlg != None:
+		if self.suntrdlg is not None:
 			self.suntrdlg.Destroy()
 			self.suntrdlg = None
-		if self.revdlg != None:
+		if self.revdlg is not None:
 			self.revdlg.Destroy()
 			self.revdlg = None
-		if self.secdirdlg != None:
+		if self.secdirdlg is not None:
 			self.secdirdlg.Destroy()
 			self.secdirdlg = None
-		if self.pdrangedlg != None:
+		if self.pdrangedlg is not None:
 			self.pdrangedlg.Destroy()
 			self.pdrangedlg = None
 
-
-	#Table-menu
+	# Table-menu
 	def onPositions(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -988,7 +972,6 @@ class MFrame(mrclasses.MrTopFrame):
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
-
 	def onAlmutenZodiacal(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -999,7 +982,6 @@ class MFrame(mrclasses.MrTopFrame):
 			almutenfr = almutenzodsframe.AlmutenZodsFrame(self, self.title, self.horoscope, self.options)
 			almutenfr.Show(True)
 
-
 	def onAlmutenChart(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1009,7 +991,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			almutenfr = almutenchartframe.AlmutenChartFrame(self, self.title, self.horoscope, self.options)
 			almutenfr.Show(True)
-
 
 	def onAlmutenTopical(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1026,7 +1007,6 @@ class MFrame(mrclasses.MrTopFrame):
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
-
 	def onMisc(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1036,7 +1016,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			tblframe = miscframe.MiscFrame(self, self.title, self.horoscope, self.options)
 			tblframe.Show(True)
-
 
 	def onAspects(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1048,7 +1027,6 @@ class MFrame(mrclasses.MrTopFrame):
 			aspsframe = aspectsframe.AspectsFrame(self, self.title, self.horoscope, self.options)
 			aspsframe.Show(True)
 
-
 	def onMidpoints(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1058,7 +1036,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			midsframe = midpointsframe.MidPointsFrame(self, self.title, self.horoscope, self.options)
 			midsframe.Show(True)
-
 
 	def onRiseSet(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1070,7 +1047,6 @@ class MFrame(mrclasses.MrTopFrame):
 			risesetfr = risesetframe.RiseSetFrame(self, self.title, self.horoscope, self.options)
 			risesetfr.Show(True)
 
-
 	def onSpeeds(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1080,7 +1056,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			speedsfr = speedsframe.SpeedsFrame(self, self.title, self.horoscope, self.options)
 			speedsfr.Show(True)
-
 
 	def onMunPos(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1092,7 +1067,6 @@ class MFrame(mrclasses.MrTopFrame):
 			munposfr = munposframe.MunPosFrame(self, self.title, self.horoscope, self.options)
 			munposfr.Show(True)
 
-
 	def onAntiscia(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1102,7 +1076,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			antisciafr = antisciaframe.AntisciaFrame(self, self.title, self.horoscope, self.options)
 			antisciafr.Show(True)
-
 
 	def onZodPars(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1114,7 +1087,6 @@ class MFrame(mrclasses.MrTopFrame):
 			zodparsfr = zodparsframe.ZodParsFrame(self, self.title, self.horoscope, self.options)
 			zodparsfr.Show(True)
 
-
 	def onStrip(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1124,7 +1096,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			stripfr = stripframe.StripFrame(self, self.title, self.horoscope, self.options)
 			stripfr.Show(True)
-
 
 	def onFixStars(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1145,7 +1116,6 @@ class MFrame(mrclasses.MrTopFrame):
 			fixstarsfr = fixstarsframe.FixStarsFrame(self, self.title, self.horoscope, self.options)
 			fixstarsfr.Show(True)
 
-
 	def onFixStarsAsps(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1165,7 +1135,6 @@ class MFrame(mrclasses.MrTopFrame):
 			fixstarsaspsfr = fixstarsaspectsframe.FixStarsAspectsFrame(self, self.title, self.horoscope, self.options)
 			fixstarsaspsfr.Show(True)
 
-
 	def onPlanetaryHours(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1176,7 +1145,6 @@ class MFrame(mrclasses.MrTopFrame):
 			planetaryfr = hoursframe.HoursFrame(self, self.title, self.horoscope, self.options)
 			planetaryfr.Show(True)
 
-
 	def onArabians(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1186,7 +1154,6 @@ class MFrame(mrclasses.MrTopFrame):
 			wait = wx.BusyCursor()
 			partsfr = arabicpartsframe.ArabicPartsFrame(self, self.title, self.horoscope, self.options)
 			partsfr.Show(True)
-
 
 	def onExactTransits(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1199,7 +1166,7 @@ class MFrame(mrclasses.MrTopFrame):
 			dlgm.Destroy()
 			return
 
-		if self.trmondlg == None:
+		if self.trmondlg is None:
 			self.trmondlg = transitmdlg.TransitMonthDlg(None, self.horoscope.time)
 		self.trmondlg.CenterOnParent()
 		val = self.trmondlg.ShowModal()
@@ -1214,7 +1181,6 @@ class MFrame(mrclasses.MrTopFrame):
 			trans.month(year, month, self.horoscope)
 			tw = transitmframe.TransitMonthFrame(self, self.title.replace(mtexts.typeList[self.horoscope.htype], mtexts.txts['Transit']+' ('+str(year)+'.'+common.common.months[month-1]+')'), trans.transits, year, month, self.horoscope, self.options)
 			tw.Show(True)
-
 
 	def onProfections(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1286,7 +1252,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		pdlg.Destroy()
 
-
 	def onCustomerSpeculum(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1301,7 +1266,7 @@ class MFrame(mrclasses.MrTopFrame):
 						wait = wx.BusyCursor()
 						custframe = customerframe.CustomerFrame(self, self.title, self.horoscope, self.options, self.horoscope.cpd)
 						custframe.Show(True)
-					elif self.horoscope.cpd2 != None:
+					elif self.horoscope.cpd2 is not None:
 						wait = wx.BusyCursor()
 						custframe = customerframe.CustomerFrame(self, self.title, self.horoscope, self.options, self.horoscope.cpd2)
 						custframe.Show(True)
@@ -1313,7 +1278,6 @@ class MFrame(mrclasses.MrTopFrame):
 				dlgm = wx.MessageDialog(self, mtexts.txts['SelectColumn'], '', wx.OK|wx.ICON_INFORMATION)
 				dlgm.ShowModal()
 				dlgm.Destroy()#
-
 
 	def onPrimaryDirs(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1369,7 +1333,6 @@ class MFrame(mrclasses.MrTopFrame):
 			self.Bind(wx.EVT_TIMER, self.OnTimer)
 			self.timer.Start(500)
 
-
 	def calcPDs(self, pdrange, direction, win):
 		if self.options.primarydir == primdirs.PrimDirs.PLACIDIANSEMIARC:
 			self.pds = placidiansapd.PlacidianSAPD(self.horoscope, self.options, pdrange, direction, self.abort)
@@ -1386,7 +1349,6 @@ class MFrame(mrclasses.MrTopFrame):
 		evt = PDReadyEvent()
 		wx.PostEvent(win, evt)
 
-
 	def OnTimer(self, event):
 		pdlock.acquire()
 		if not self.pdready:
@@ -1395,7 +1357,6 @@ class MFrame(mrclasses.MrTopFrame):
 			if not keepGoing:
 				self.abort.aborting()
 		pdlock.release()
-
 
 	def OnPDReady(self, event):
 		self.timer.Stop()
@@ -1420,7 +1381,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		del self.abort
 
-
 	#Charts-menu
 	def onTransits(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1433,7 +1393,7 @@ class MFrame(mrclasses.MrTopFrame):
 			dlgm.Destroy()
 			return
 
-		if self.trdatedlg == None:
+		if self.trdatedlg is None:
 			self.trdatedlg = timespacedlg.TimeSpaceDlg(None, mtexts.txts['Transits'], self.options.langid)
 			self.trdatedlg.initialize(self.horoscope)
 		self.trdatedlg.CenterOnParent()
@@ -1455,7 +1415,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 			tw = transitframe.TransitFrame(self, self.title.replace(mtexts.typeList[self.horoscope.htype], mtexts.typeList[chart.Chart.TRANSIT]+' ('+str(time.year)+'.'+common.common.months[time.month-1]+'.'+str(time.day)+' '+str(time.hour)+':'+str(time.minute).zfill(2)+':'+str(time.second).zfill(2)+')'), trans, self.horoscope, self.options)
 			tw.Show(True)
-
 
 	def onRevolutions(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1522,7 +1481,6 @@ class MFrame(mrclasses.MrTopFrame):
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
-
 	def calcPrecNutCorrectedSolar(self, revs):
 		time = chart.Time(revs.t[0], revs.t[1], revs.t[2], revs.t[3], revs.t[4], revs.t[5], False, self.horoscope.time.cal, chart.Time.GREENWICH, False, 0, 0, False, self.horoscope.place, False)
 		#The algorithm of the Janus astrological program
@@ -1575,7 +1533,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		h, mi, s = util.decToDeg(fromjdtime[3])
 		return fromjdtime[0], fromjdtime[1], fromjdtime[2], h, mi, s
-
 
 	def onSunTransits(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1642,7 +1599,6 @@ class MFrame(mrclasses.MrTopFrame):
 				dlgm.ShowModal()
 				dlgm.Destroy()#
 
-
 	def onSecondaryDirs(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1705,7 +1661,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 			dlg.Destroy()
 
-
 	def onElections(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1728,7 +1683,6 @@ class MFrame(mrclasses.MrTopFrame):
 		estepdlg.CenterOnParent()
 		estepdlg.Show(True)
 
-
 	def onSquareChart(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1736,7 +1690,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		sc = squarechartframe.SquareChartFrame(self, self.title, self.horoscope, self.options)
 		sc.Show(True)
-
 
 	def onProfectionsChart(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1798,7 +1751,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		pdlg.Destroy()
 
-
 	def onMundaneChart(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1812,7 +1764,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		mf = mundaneframe.MundaneFrame(self, self.title, self.options, self.horoscope, None)
 		mf.Show(True)
-
 
 	#Options-menu
 	def onAppearance1(self, event):
@@ -1856,7 +1807,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onAppearance2(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1883,7 +1833,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onSymbols(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1912,7 +1861,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onDignities(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1936,7 +1884,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onAyanamsha(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -1968,7 +1915,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onColors(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -1993,7 +1939,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onHouseSystem(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2021,7 +1966,6 @@ class MFrame(mrclasses.MrTopFrame):
 				self.drawBkg()
 				self.Refresh()
 
-
 	def onNodes(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2045,7 +1989,6 @@ class MFrame(mrclasses.MrTopFrame):
 				self.horoscope.calcFixStarAspMatrix()
 				self.drawBkg()
 				self.Refresh()
-
 
 	def onOrbs(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2076,7 +2019,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onFortune(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2106,7 +2048,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onArabicParts(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2125,7 +2066,7 @@ class MFrame(mrclasses.MrTopFrame):
 				self.enableOptMenus(True)
 
 				if rem:
-					if self.options.topicals != None:
+					if self.options.topicals is not None:
 						del self.options.topicals	
 						self.options.topicals = None
 
@@ -2143,7 +2084,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onSyzygy(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2172,7 +2112,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onFixStarsOpt(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2205,7 +2144,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onProfectionsOpt(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2231,7 +2169,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onLanguages(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2250,7 +2187,6 @@ class MFrame(mrclasses.MrTopFrame):
 						self.moptions.Enable(self.ID_SaveOpts, False)
 
 		dlg.Destroy()
-
 
 	def onTriplicities(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2278,7 +2214,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onTerms(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2305,7 +2240,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onDecans(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2331,7 +2265,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onChartAlmuten(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2360,7 +2293,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onTopicals(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2387,7 +2319,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onPrimaryDirsOpt(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2435,7 +2366,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onPrimaryKeys(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2462,7 +2392,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onPDsInChartOptZod(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2487,7 +2416,6 @@ class MFrame(mrclasses.MrTopFrame):
 					self.Refresh()
 
 		dlg.Destroy()
-
 
 	def onPDsInChartOptMun(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2514,7 +2442,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		dlg.Destroy()
 
-
 	def onAutoSaveOpts(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2525,7 +2452,6 @@ class MFrame(mrclasses.MrTopFrame):
 			if self.options.save():
 				self.moptions.Enable(self.ID_SaveOpts, False)
 
-
 	def onSaveOpts(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2533,7 +2459,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		if self.options.save():
 			self.moptions.Enable(self.ID_SaveOpts, False)
-
 
 	def onReload(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
@@ -2574,7 +2499,6 @@ class MFrame(mrclasses.MrTopFrame):
 			hframe = htmlhelpframe.HtmlHelpFrame(self, -1, mtexts.txts['Morinus'], fname)
 			hframe.Show(True)
 
-
 	def onAbout(self, event):
 		#Because on Windows the EVT_MENU_CLOSE event is not sent in case of accelerator-keys
 		if wx.Platform == '__WXMSW__' and not self.splash:
@@ -2585,13 +2509,12 @@ class MFrame(mrclasses.MrTopFrame):
 		info.Version = '6.2'
 		info.Copyright = mtexts.txts['FreeSoft']
 		info.Description = mtexts.txts['Description']+str(astrology.swe_version())
-		info.WebSite = ('http://sites.google.com/site/pymorinus/',\
-					   'http://sites.google.com/site/pymorinus/')
+		info.WebSite = ('http://sites.google.com/site/pymorinus/',
+		                'http://sites.google.com/site/pymorinus/')
 		info.Developers = [u'Robert Nagy (Hungary); robert.pluto@gmail.com (programming and astrology)\nPhilippe Epaud(France); philipeau@free.fr (french translation)\nMargherita Fiorello (Italy); margherita.fiorello@gmail.com (astrology, italian translation)\nMartin Gansten (Sweden); http://www.martingansten.com/ (astrology)\nJaime Chica Londoño(Colombia); aulavirtual@astrochart.org (spanish translation)\nRoberto Luporini (Italy); roberto.luporini@tiscali.it (Astrological astronomy)\nPetr Radek (Czech Rep.); petr_radek@raz-dva.cz (astrology)\nEndre Csaba Simon (Finland); secsaba@gmail.com (programming and astrology)\nDenis Steinhoff (Israel); denis@steindan.com (astrology, russian translation)\nVáclav Jan Špirhanzl (Czech Rep.); vjs.morinus@gmail.com (MacOS version)']
 		info.License = mtexts.licensetxt
 
 		wx.AboutBox(info)
-
 
 	#Misc
 	def setHouse(self):
@@ -2600,35 +2523,29 @@ class MFrame(mrclasses.MrTopFrame):
 			if houses.Houses.hsystems[i] == self.options.hsys:
 				sysh[i].Check(True)
 
-
 	def setNode(self):
 		if self.options.meannode:
 			self.meanitem.Check(True)
 		else:
 			self.trueitem.Check(True)
 
-
 	def setAutoSave(self):
 		self.autosave.Check(self.options.autosave)
-
 
 	def closeChildWnds(self):
 		li = self.GetChildren()
 		for ch in li:
-			x,y = ch.GetClientSize()
+			x, y = ch.GetClientSize()
 			if ch.GetName() != 'status_line' and y > 50:
 				ch.Destroy()
-
 
 	def onMenuOpen(self, event):
 		if not self.splash:
 			self.handleStatusBar(False)
 
-
 	def onMenuClose(self, event):
 		if not self.splash:
 			self.handleStatusBar(True)
-
 
 	def enableMenus(self, bEnable):
 		self.mhoros.Enable(self.ID_New, not bEnable)
@@ -2670,11 +2587,9 @@ class MFrame(mrclasses.MrTopFrame):
 		# FIXIT: find the bug with endless loop, after fixing the bugs -> enable menu ; False to bEnable
 		# self.mcharts.Enable(self.ID_MundaneChart, False)
 
-
 	def enableOptMenus(self, bEnable):
 		self.moptions.Enable(self.ID_SaveOpts, bEnable)
 		self.moptions.Enable(self.ID_Reload, bEnable)
-
 
 	def handleStatusBar(self, bHor):
 		sb = self.GetStatusBar()
@@ -2712,7 +2627,6 @@ class MFrame(mrclasses.MrTopFrame):
 			sb.SetFieldsCount(1)
 			self.SetStatusText('')
 
-
 	def handleCaption(self, bHor):
 		if bHor:
 			name = self.horoscope.name
@@ -2729,7 +2643,6 @@ class MFrame(mrclasses.MrTopFrame):
 
 		self.SetTitle(self.title)
 
-
 	def checkFixStars(self):
 		res = True
 		fname = os.path.join(common.common.ephepath, 'fixstars.cat')
@@ -2743,11 +2656,9 @@ class MFrame(mrclasses.MrTopFrame):
 
 		return res
 
-
 	def drawSplash(self):
 		splashpath = os.path.join('Res', 'Morinus.jpg')
 		self.buffer = wx.Image(splashpath).ConvertToBitmap()
-
 
 	def drawBkg(self):
 		gchart = None
@@ -2756,9 +2667,8 @@ class MFrame(mrclasses.MrTopFrame):
 		else:
 			gchart = graphchart2.GraphChart2(self.horoscope, self.GetClientSize(), self.options, self.options.bw)
 
-		if gchart != None:
+		if gchart is not None:
 			self.buffer = gchart.drawChart()
-
 
 	def onEraseBackground(self, event):
 		dc = wx.ClientDC(self)
@@ -2766,18 +2676,17 @@ class MFrame(mrclasses.MrTopFrame):
 		x = y = 0
 
 		if self.splash:
-			wx.size = self.GetClientSize()
-			x = wx.size.x/2-self.buffer.GetWidth()/2
-			y = wx.size.y/2-self.buffer.GetHeight()/2
+			size = self.GetClientSize()
+			x = size.x/2-self.buffer.GetWidth()/2
+			y = size.y/2-self.buffer.GetHeight()/2
 
 			bkgclr = self.options.clrbackground
 			if self.options.bw:
-				bkgclr = (255,255,255)
+				bkgclr = (255, 255, 255)
 			self.SetBackgroundColour(bkgclr)
 			self.ClearBackground()
 
 		dc.DrawBitmap(self.buffer, x, y)
-
 
 	def onPaint(self, event):
 		dc = wx.ClientDC(self)
@@ -2785,17 +2694,16 @@ class MFrame(mrclasses.MrTopFrame):
 		x = y = 0
 
 		if self.splash:
-			wx.size = self.GetClientSize()
-			x = wx.size.x/2-self.buffer.GetWidth()/2
-			y = wx.size.y/2-self.buffer.GetHeight()/2
+			size = self.GetClientSize()
+			x = size.x/2 - self.buffer.GetWidth()/2
+			y = size.y/2 - self.buffer.GetHeight()/2
 
 			bkgclr = self.options.clrbackground
 			if self.options.bw:
-				bkgclr = (255,255,255)
+				bkgclr = (255, 255, 255)
 			self.SetBackgroundColour(bkgclr)
 
 		dc.DrawBitmap(self.buffer, x, y)
-
 
 	def onSize(self, event):
 		if self.splash:
@@ -2804,36 +2712,30 @@ class MFrame(mrclasses.MrTopFrame):
 			self.drawBkg()
 			self.Refresh()
 
-
 	def calc(self):
 		for planet in self.horoscope.planets.planets:
 			print ''
 			print '%s:' % planet.name
 
-			(d, m, s) = decToDeg(planet.data[0])
+			(d, m, s) = util.decToDeg(planet.data[0])
 			print 'lon: %02d %02d\' %02d"' % (d, m, s)
-			(d, m, s) = decToDeg(planet.data[1])
+			(d, m, s) = util.decToDeg(planet.data[1])
 			print 'lat: %02d %02d\' %02d"' % (d, m, s)
-			(d, m, s) = decToDeg(planet.data[3])
+			(d, m, s) = util.decToDeg(planet.data[3])
 			if planet.data[3] > 0:
 				print 'speed: %02d %02d\' %02d"' % (d, m, s)
 			else:
 				print 'speed: %02d %02d\' %02d"  R' % (d, m, s)
 
-
 		print ''
 		print 'Houses'
-		for i in range(1, Houses.HOUSE_NUM+1):
-			(d, m, s) = decToDeg(self.horoscope.houses.cusps[i])
+		for i in range(1, houses.Houses.HOUSE_NUM+1):
+			(d, m, s) = util.decToDeg(self.horoscope.houses.cusps[i])
 			print 'house[%d]: %02d %02d\' %02d"' % (i, d, m, s)
 
 		print ''
 		print 'Vars'
 		xvars = ('Asc', 'MC', 'ARMC', 'Vertex', 'Equatorial Ascendant', 'Co-Asc', 'Co-Asc2', 'Polar Asc')
 		for i in range(0, 8):
-			(d, m, s) = decToDeg(self.horoscope.houses.ascmc[i])
+			(d, m, s) = util.decToDeg(self.horoscope.houses.ascmc[i])
 			print '%s = %02d %02d\' %02d"' % (xvars[i], d, m, s)
-
-
-
-

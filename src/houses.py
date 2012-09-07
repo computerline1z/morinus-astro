@@ -21,7 +21,7 @@ class Houses:
 		if hsys in Houses.hsystems:
 			self.hsys = hsys
 		else:
-			self.hsys = hsystems[0]
+			self.hsys = self.hsystems[0]
 
 		self.obl = obl
 
@@ -82,7 +82,7 @@ class Houses:
 				else:
 					cusp2 += 360.0
 					pos += 360.0
-					
+
 			if cusp1 < pos and cusp2 > pos:
 				if opts.traditionalaspects:
 					pos = lon

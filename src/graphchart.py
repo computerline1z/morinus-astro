@@ -897,7 +897,7 @@ class GraphChart:
 					if not self.bw:
 						clr = self.options.clraspect[asp.typ]
 
-					self.draw.text(((x1+x2)/2-self.symbolSize/4, (y1+y2)/2-self.symbolSize/4), common.common.Aspects[asp.typ], fill=clr, font=self.fntAspects)					
+					self.draw.text(((x1+x2)/2-self.symbolSize/4, (y1+y2)/2-self.symbolSize/4), common.common.Aspects[asp.typ], fill=clr, font=self.fntAspects)
 
 		for i in range(self.chart.planets.PLANETS_NUM-2):
 			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]) or ((i == astrology.SE_MEAN_NODE or i == astrology.SE_TRUE_NODE) and (not self.options.shownodes or not self.options.aspectstonodes)):
@@ -941,7 +941,7 @@ class GraphChart:
 				if not self.bw:
 					clr = self.options.clraspect[asp.typ]
 
-				self.draw.text(((x1+x2)/2-self.symbolSize/4, (y1+y2)/2-self.symbolSize/4), common.common.Aspects[asp.typ], fill=clr, font=self.fntAspects)					
+				self.draw.text(((x1+x2)/2-self.symbolSize/4, (y1+y2)/2-self.symbolSize/4), common.common.Aspects[asp.typ], fill=clr, font=self.fntAspects)
 
 
 	# Fuckin' PIL can't draw a dashed line
@@ -1385,7 +1385,11 @@ class GraphChart:
 			else:
 				pls[pnum] = frtn[fortune.Fortune.LON]
 
-			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]) or ((i == astrology.SE_MEAN_NODE or i == astrology.SE_TRUE_NODE) and not self.options.shownodes) or (i == planets.Planets.PLANETS_NUM and not self.options.showlof):
+			if (i == astrology.SE_URANUS and not self.options.transcendental[chart.Chart.TRANSURANUS]) or\
+			   (i == astrology.SE_NEPTUNE and not self.options.transcendental[chart.Chart.TRANSNEPTUNE]) or\
+			   (i == astrology.SE_PLUTO and not self.options.transcendental[chart.Chart.TRANSPLUTO]) or \
+			   ((i == astrology.SE_MEAN_NODE or i == astrology.SE_TRUE_NODE) and not self.options.shownodes) or \
+			   (i == planets.Planets.PLANETS_NUM and not self.options.showlof):
 				continue
 			mixed[pnum] = i
 			pnum += 1
@@ -1505,6 +1509,9 @@ class GraphChart:
 		#if  'wxMac' in wx.PlatformInfo:		 # (* vjs *)
 		#	return False						# (* vjs *)
 
+		"""
+		@rtype : bool
+		"""
 		xoverlap = (x1 <= x2 and x2 <= x1+w1) or (x2 <= x1 and x1 <= x2+w2)
 		yoverlap = (y1 <= y2 and y2 <= y1+h1) or (y2 <= y1 and y1 <= y2+h2)
 
@@ -1858,7 +1865,6 @@ class GraphChart:
 
 		return shifted
 
-
 	def isShowAsp(self, typ, lon1, lon2):
 		res = False
 
@@ -1890,7 +1896,6 @@ class GraphChart:
 
 		return res
 
-
 	def isExact(self, exact, lon1, lon2):
 		res = False
 
@@ -1911,12 +1916,3 @@ class GraphChart:
 				res = True
 
 		return res
-
-
-
-
-
-
-
-
-

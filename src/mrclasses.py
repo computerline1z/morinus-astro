@@ -37,7 +37,7 @@ class MrTopFrame(wx.Frame):
 
 	@activewindow.deleter
 	def activewindow(self):
-		raise NotImplementedError('property - activewindow can not be deleted')
+		raise NotImplementedError('property activewindow can not be deleted')
 
 
 class MrSecondFrame(wx.Frame):

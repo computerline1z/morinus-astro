@@ -34,7 +34,7 @@ class AlmutenChartWnd(commonwnd.CommonWnd):
 		self.ECELL_WIDTH = 7*self.FONT_SIZE
 		self.ETITLE_HEIGHT = self.LINE_HEIGHT
 		self.ETITLE_WIDTH = 10*self.FONT_SIZE
-		self.ETABLE_WIDTH = (self.ESMALL_CELL_WIDTH+self.ELONGITUDE_CELL_WIDTH+(self.ECOLUMN_NUM)*(self.ECELL_WIDTH)+self.DEGREEWINS_CELL_WIDTH)
+		self.ETABLE_WIDTH = (self.ESMALL_CELL_WIDTH+self.ELONGITUDE_CELL_WIDTH+ self.ECOLUMN_NUM * self.ECELL_WIDTH +self.DEGREEWINS_CELL_WIDTH)
 		self.ETABLE_HEIGHT = (2*self.ETITLE_HEIGHT+(self.ELINE_NUM*self.LINE_HEIGHT+2*self.ELINE_HEIGHT))
 
 		if self.options.useaccidental:
@@ -51,13 +51,13 @@ class AlmutenChartWnd(commonwnd.CommonWnd):
 			self.ASMALL_CELL_WIDTH = 6*self.FONT_SIZE
 			self.ACELL_WIDTH = 3*self.FONT_SIZE
 			self.ATABLE_WIDTH = (3*self.ACCIDENTAL_X_OFFSET+2*(self.ASMALL_CELL_WIDTH+(self.A1COLUMN_NUM)*(self.ACELL_WIDTH)))
-			self.ATABLE_HEIGHT = (self.ATITLE_HEIGHT+3*self.ACCIDENTAL_Y_OFFSET+(2*(self.LINE_HEIGHT)+2*self.ALINE_HEIGHT))
+			self.ATABLE_HEIGHT = (self.ATITLE_HEIGHT+3*self.ACCIDENTAL_Y_OFFSET+(2* self.LINE_HEIGHT +2*self.ALINE_HEIGHT))
 
 			#Totals
 			self.TLINE_NUM = 3
 			self.TCOLUMN_NUM = 7
 			self.TTABLE_HEIGHT = self.LINE_HEIGHT+3*self.ELINE_HEIGHT
-			self.TTABLE_WIDTH = (self.ASMALL_CELL_WIDTH+(self.TCOLUMN_NUM)*(self.ACELL_WIDTH))
+			self.TTABLE_WIDTH = (self.ASMALL_CELL_WIDTH+ self.TCOLUMN_NUM * self.ACELL_WIDTH)
 			self.TTABLE_OFFSET = self.LINE_HEIGHT
 
 			self.HEIGHT = (commonwnd.CommonWnd.BORDER+self.ETABLE_HEIGHT+self.ATABLE_OFFSET+self.ATABLE_HEIGHT+self.TTABLE_OFFSET+self.TTABLE_HEIGHT+commonwnd.CommonWnd.BORDER)
@@ -332,7 +332,7 @@ class AlmutenChartWnd(commonwnd.CommonWnd):
 			draw.text((x+(self.ASMALL_CELL_WIDTH-w)/2, y+self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
 
 			yday = y-self.LINE_HEIGHT
-			xday = x+self.ACCIDENTAL_X_OFFSET+self.ASMALL_CELL_WIDTH+(self.A1COLUMN_NUM)*(self.ACELL_WIDTH)
+			xday = x+self.ACCIDENTAL_X_OFFSET+self.ASMALL_CELL_WIDTH+ self.A1COLUMN_NUM * self.ACELL_WIDTH
 
 			y += self.ALINE_HEIGHT+self.ACCIDENTAL_Y_OFFSET
 			width = 3*self.ACELL_WIDTH

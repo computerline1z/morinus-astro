@@ -158,7 +158,7 @@ class PartsListCtrl(wx.ListCtrl):
 
 
 	def load(self, parts):
-		if parts != None:
+		if parts is not None:
 			idx = 1
 			num = len(parts)
 			for i in range(num):
@@ -176,7 +176,7 @@ class PartsListCtrl(wx.ListCtrl):
 	def save(self, opts):
 		if self.changed:
 
-			if opts.arabicparts != None:
+			if opts.arabicparts is not None:
 				del opts.arabicparts
 	
 			parts = []

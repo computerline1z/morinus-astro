@@ -303,7 +303,7 @@ class Accidentals:
 		asppoint = pos+asp
 
 		if (val1 >= 360.0 and val2 < 360.0) or (val1 > 0 and val2 < 0):#left is in Aries, right is in Pisces
-			if (val1 >= 0 and val2 < 0):
+			if val1 >= 0 and val2 < 0:
 				val1 += 360.0
 				val2 += 360.0
 			if pos < 20.0: # 20.0 is arbitrary, just to see if the planet is close to the Pisces-Aries transition
@@ -670,7 +670,7 @@ class Almutens:
 				self.maxscore[1] = self.scores[i]
 
 		self.topicals = None
-		if chrt.options.topicals != None:
+		if chrt.options.topicals is not None:
 			self.topicals = Topicals(chrt)
 
 

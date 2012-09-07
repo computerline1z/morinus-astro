@@ -10,6 +10,7 @@ import wx
 import sys
 import traceback
 
+MY_DEBUG = True
 
 def ExceptionHook(exctype, value, trace):
     """Handler for all unhandled exceptions
@@ -35,10 +36,12 @@ class MrApp(wx.App):
 		# __init__ is called only after OnInit()
 		super(MrApp, self).__init__(*args, **kwargs)
 		if not sys.excepthook is ExceptionHook:
-			sys.excepthook = ExceptionHook
+			if not MY_DEBUG:
+				sys.excepthook = ExceptionHook
 		return
 
 	def OnInit(self):
-		sys.excepthook = ExceptionHook
+		if not MY_DEBUG:
+			sys.excepthook = ExceptionHook
 		return True
 	

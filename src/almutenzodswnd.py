@@ -33,7 +33,7 @@ class AlmutenZodsWnd(commonwnd.CommonWnd):
 		self.DEGREEWINS_CELL_WIDTH = 7*self.FONT_SIZE
 		self.TITLE_HEIGHT = self.LINE_HEIGHT
 		self.TITLE_WIDTH = 10*self.FONT_SIZE
-		self.TABLE_WIDTH = (self.SMALL_CELL_WIDTH+self.LONGITUDE_CELL_WIDTH+(self.COLUMN_NUM)*(self.CELL_WIDTH)+self.DEGREEWINS_CELL_WIDTH)
+		self.TABLE_WIDTH = (self.SMALL_CELL_WIDTH+self.LONGITUDE_CELL_WIDTH+ self.COLUMN_NUM * self.CELL_WIDTH +self.DEGREEWINS_CELL_WIDTH)
 		self.TABLE_HEIGHT = (self.TITLE_HEIGHT+self.LINE_NUM*self.LINE_HEIGHT)
 
 		self.HEIGHT = (commonwnd.CommonWnd.BORDER+self.TABLE_HEIGHT+commonwnd.CommonWnd.BORDER)
@@ -283,8 +283,8 @@ class AlmutenZodsWnd(commonwnd.CommonWnd):
 				offs = i
 				if onlyone:
 					offs = 0
-				draw.text((x+(self.DEGREEWINS_CELL_WIDTH-(mwidth))/2+prev, y+offs*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), pltxt, fill=clr, font=self.fntMorinus)
-				draw.text((x+(self.DEGREEWINS_CELL_WIDTH-(mwidth))/2+prev+wpl+wsp, y+offs*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
+				draw.text((x+(self.DEGREEWINS_CELL_WIDTH- mwidth)/2+prev, y+offs*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), pltxt, fill=clr, font=self.fntMorinus)
+				draw.text((x+(self.DEGREEWINS_CELL_WIDTH- mwidth)/2+prev+wpl+wsp, y+offs*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
 
 
 	def drawDegWinner2(self, draw, x, y, degwinner, txtclr):
@@ -327,8 +327,8 @@ class AlmutenZodsWnd(commonwnd.CommonWnd):
 				for p in range(j):
 					prev += aux[j][2]+wsp
 
-				draw.text((x+(self.DEGREEWINS_CELL_WIDTH-(mwidth))/2+prev, y+(self.LINE_HEIGHT-h)/2), pltxt, fill=clr, font=self.fntMorinus)
-				draw.text((x+(self.DEGREEWINS_CELL_WIDTH-(mwidth))/2+prev+wpl+wsp, y+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
+				draw.text((x+(self.DEGREEWINS_CELL_WIDTH- mwidth)/2+prev, y+(self.LINE_HEIGHT-h)/2), pltxt, fill=clr, font=self.fntMorinus)
+				draw.text((x+(self.DEGREEWINS_CELL_WIDTH- mwidth)/2+prev+wpl+wsp, y+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
 
 
 	def drawLong(self, draw, x, y, lon, clr, nonHCs = True):

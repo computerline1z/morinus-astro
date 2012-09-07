@@ -33,7 +33,7 @@ class AlmutenTopicalsWnd(commonwnd.CommonWnd):
 		self.DEGREEWINS_CELL_WIDTH = 7*self.FONT_SIZE
 		self.CELL_WIDTH = 7*self.FONT_SIZE
 		self.TITLE_HEIGHT = self.LINE_HEIGHT
-		self.TABLE_WIDTH = (self.LONGITUDE_CELL_WIDTH+(self.COLUMN_NUM)*(self.CELL_WIDTH)+self.DEGREEWINS_CELL_WIDTH)
+		self.TABLE_WIDTH = (self.LONGITUDE_CELL_WIDTH+ self.COLUMN_NUM * self.CELL_WIDTH +self.DEGREEWINS_CELL_WIDTH)
 		self.TABLE_HEIGHT = (self.TITLE_HEIGHT+(self.LINE_NUM*self.LINE_HEIGHT+2*self.DLINE_HEIGHT))
 
 		self.HEIGHT = (commonwnd.CommonWnd.BORDER+self.TABLE_HEIGHT+commonwnd.CommonWnd.BORDER)
@@ -204,8 +204,8 @@ class AlmutenTopicalsWnd(commonwnd.CommonWnd):
 					for p in range(j):
 						prev += aux[j][2]+wsp
 
-					draw.text((x+(self.DEGREEWINS_CELL_WIDTH-(mwidth))/2+prev, y+i*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), pltxt, fill=clr, font=self.fntMorinus)
-					draw.text((x+(self.DEGREEWINS_CELL_WIDTH-(mwidth))/2+prev+wpl+wsp, y+i*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
+					draw.text((x+(self.DEGREEWINS_CELL_WIDTH- mwidth)/2+prev, y+i*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), pltxt, fill=clr, font=self.fntMorinus)
+					draw.text((x+(self.DEGREEWINS_CELL_WIDTH- mwidth)/2+prev+wpl+wsp, y+i*self.LINE_HEIGHT+(self.LINE_HEIGHT-h)/2), txt, fill=txtclr, font=self.fntText)
 
 		wxImg = wx.EmptyImage(img.size[0], img.size[1])
 		wxImg.SetData(img.tostring())

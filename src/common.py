@@ -25,6 +25,7 @@ class Common:
 
 		self.retr = 'Z'
 
+		self.Planets = ()
 
 	def update(self, options):
 
@@ -34,6 +35,3 @@ class Common:
 		pluto = self.Pluto[options.pluto]
 
 		self.Planets = ('A', 'B', 'C', 'D', 'E', 'F', 'G', uranus, 'I', pluto, 'K', 'L')
-
-
-

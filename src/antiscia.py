@@ -82,8 +82,7 @@ class Antiscia:
 		raantmc, declantmc, dist = astrology.swe_cotrans(cantmc, 0.0, 1.0, -self.obl)
 		self.ascmccontraant.append(Antiscion(Antiscion.CONTRAANT, Antiscion.MC, cantmc, 0.0, raantmc, declantmc))
 
-#		self.printants()
-
+#		self._printants()
 
 	def calc(self, lon):
 		ant = 0.0
@@ -109,8 +108,8 @@ class Antiscia:
 
 		return ant, cant
 
-
-	def printants(self):
+# NOTE: Helper function, not used in project ???
+	def _printants(self):
 		plstxt = ('Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn', 'Uranus', 'Neptune', 'Pluto', 'AscNode', 'DescNode')
 		anttxt = ('Antiscia', 'Contraantiscia')
 

@@ -45,9 +45,18 @@ Blog site - http://astro-morinus.blogspot.com/
 
 Releases
 
+6.2.0r05 - 2012 September 6
+- added GUI functionality - closing window with Cmd+W, standard Mac OSX behavior
+- added Swiss ephemeris compiled library into source code zip archive.
+Library sweastrology.so has following structure:
+sweastrology.so: Mach-O universal binary with 2 architectures
+sweastrology.so (for architecture i386):	Mach-O bundle i386
+sweastrology.so (for architecture x86_64):	Mach-O 64-bit bundle x86_64
+
 6.2.0r04 - 2012 August 19
 - added Swiss ephemeris files
 - created two dmg packages, one with Swiss ephemeris data files and one without
+- created zip archive with source code
 
 6.2.0r03 - 2012 August 1
 - fixed - problem with displaying of Synastry result
