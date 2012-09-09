@@ -1,10 +1,11 @@
 import wx
+import mrclasses
 
 
-class HtmlHelpFrame(wx.Frame):
+class HtmlHelpFrame(mrclasses.MrSecondFrame):
 
 	def __init__(self, parent, id, title, opts):
-		wx.Frame.__init__(self, parent, id, title, wx.DefaultPosition, wx.Size(640, 400))
+		mrclasses.MrSecondFrame.__init__(self, parent, id, title, wx.DefaultPosition, wx.Size(640, 400))
 
 
 

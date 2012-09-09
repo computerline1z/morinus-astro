@@ -70,7 +70,7 @@ class TriplicitiesDlg(wx.Dialog):
 
 		btnsizer.Realize()
 
-		mvsizer.Add(btnsizer, 0, wx.GROW|wx.ALL, 10)
+		mvsizer.Add(btnsizer, 0, wx.GROW | wx.ALL, 10)
 		self.SetSizer(mvsizer)
 		mvsizer.Fit(self)
 
@@ -78,7 +78,6 @@ class TriplicitiesDlg(wx.Dialog):
 		self.Bind(wx.EVT_BUTTON, self.onOK, id=wx.ID_OK)
 
 		btnOk.SetFocus()
-
 
 	def onSelect(self, event):
 		idx = event.GetSelection()
@@ -92,7 +91,6 @@ class TriplicitiesDlg(wx.Dialog):
 				self.trips[i][j].SetSelection(self.tripsval[idx][i][j])
 
 		self.oldidx = idx
-
 
 	def onOK(self, event):
 		num = len(self.trips)
@@ -124,11 +122,5 @@ class TriplicitiesDlg(wx.Dialog):
 					if self.tripsval[typ][i][j] != options.trips[typ][i][j]:
 						options.trips[typ][i][j] = self.tripsval[typ][i][j] 
 						changed = True
-						
+
 		return changed
-
-
-
-
-
-
