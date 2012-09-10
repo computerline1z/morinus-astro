@@ -868,6 +868,9 @@ class MFrame(mrclasses.MrTopFrame):
 		self.handleCaption(False)
 		self.Refresh()	
 
+	def OnActivateChildren(self, activated):
+		self.mhoros.Enable(self.ID_CloseWindow, activated)
+
 	def onCloseWindow(self, event):
 		app = wx.GetApp()
 		topwindow = app.GetTopWindow()

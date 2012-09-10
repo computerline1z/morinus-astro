@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
+
 """
 mrclasses.py
 
@@ -14,12 +15,25 @@ Created by Vaclav Spirhanzl on 2012-08-31.
 
 import wx
 
+from wx.lib.pubsub import Publisher as Pub
+
+CH_ACTIVATED='children.activated'
 
 class MrTopFrame(wx.Frame):
 	def __init__(self, *args, **kwargs):
 		wx.Frame.__init__(self, *args, **kwargs)
 
 		self._activewindow = None
+
+		Pub().subscribe(self.__onActivateChildren, (CH_ACTIVATED) )
+
+	def __onActivateChildren(self, activated):
+		is_activated = activated.data
+		assert isinstance(is_activated, bool)
+		self.OnActivateChildren(is_activated)
+
+	def OnActivateChildren(self, activated):
+		raise NotImplementedError('must be overridden in subclass')
 
 	"""
 		The activewindow property contains active window or None
@@ -51,21 +65,21 @@ class MrSecondFrame(wx.Frame):
 		app = wx.GetApp()
 		topwindow = app.GetTopWindow()
 		is_active = event.Active
-		if event.Active:    # window activated
-			topwindow.mhoros.Enable(topwindow.ID_CloseWindow, is_active)
+		if is_active:    # window activated
 			topwindow.activewindow = self
 		else:               # window deactivated
-			topwindow.mhoros.Enable(topwindow.ID_CloseWindow, is_active)
 			topwindow.activewindow = None
+
+		Pub().sendMessage(CH_ACTIVATED, is_active)
 
 		event.Skip()        # propagates event
 
 	def OnClose(self, event):
 		app = wx.GetApp()
 		topwindow = app.GetTopWindow()
-		topwindow.mhoros.Enable(topwindow.ID_CloseWindow, False)
 		if topwindow.activewindow is self:
 			topwindow.activewindow = None
+			Pub().sendMessage(CH_ACTIVATED, False)
 
 		event.Skip()
 
