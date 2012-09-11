@@ -15,9 +15,8 @@ Created by Vaclav Spirhanzl on 2012-08-31.
 
 import wx
 
-from wx.lib.pubsub import Publisher as Pub
+import dispatch as dispatcher
 
-CH_ACTIVATED='children.activated'
 
 class MrTopFrame(wx.Frame):
 	def __init__(self, *args, **kwargs):
@@ -25,11 +24,13 @@ class MrTopFrame(wx.Frame):
 
 		self._activewindow = None
 
-		Pub().subscribe(self.__onActivateChildren, (CH_ACTIVATED) )
+		self._child_win_activated = dispatcher.Signal(providing_args=['isactive', ]	)
+		self._child_win_activated.connect(self.__onActivateChildren)
 
-	def __onActivateChildren(self, activated):
-		is_activated = activated.data
+	def __onActivateChildren(self, sender, **kwargs):
+		is_activated = kwargs['isactive']
 		assert isinstance(is_activated, bool)
+		assert isinstance(sender, MrSecondFrame)
 		self.OnActivateChildren(is_activated)
 
 	def OnActivateChildren(self, activated):
@@ -64,13 +65,14 @@ class MrSecondFrame(wx.Frame):
 	def OnActivate(self, event):
 		app = wx.GetApp()
 		topwindow = app.GetTopWindow()
+		assert isinstance(topwindow, MrTopFrame)
 		is_active = event.Active
 		if is_active:    # window activated
 			topwindow.activewindow = self
 		else:               # window deactivated
 			topwindow.activewindow = None
 
-		Pub().sendMessage(CH_ACTIVATED, is_active)
+		topwindow._child_win_activated.send(sender=self, isactive=is_active)
 
 		event.Skip()        # propagates event
 
@@ -79,7 +81,7 @@ class MrSecondFrame(wx.Frame):
 		topwindow = app.GetTopWindow()
 		if topwindow.activewindow is self:
 			topwindow.activewindow = None
-			Pub().sendMessage(CH_ACTIVATED, False)
+			topwindow._child_win_activated.send(sender=self, isactive=False)
 
 		event.Skip()
 
