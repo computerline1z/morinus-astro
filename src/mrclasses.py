@@ -36,16 +36,29 @@ class MrTopFrame(wx.Frame):
 	def OnActivateChildren(self, activated):
 		raise NotImplementedError('must be overridden in subclass')
 
-	"""
-		The activewindow property contains active window or None
-	"""
+	@property
+	def signal_childwindowactive(self):
+		"""
+		@rtype : dispatcher signal
+		"""
+		return self._child_win_activated
+
 	@property
 	def activewindow(self):
+		"""
+		The activewindow property contains active window or None
+
+		@rtype : MrSecondFrame class
+		"""
 		return self._activewindow
 
 	@activewindow.setter
 	def activewindow(self, value):
-		if isinstance(value, MrTopFrame) or isinstance(value, MrSecondFrame) or value is None:
+		"""
+		@param value: active window of type MrSecondFrame or None
+		@raise: ValueError
+		"""
+		if isinstance(value, MrSecondFrame) or value is None:
 			self._activewindow = value
 		else:
 			raise ValueError('property activewindow')
@@ -72,7 +85,7 @@ class MrSecondFrame(wx.Frame):
 		else:               # window deactivated
 			topwindow.activewindow = None
 
-		topwindow._child_win_activated.send(sender=self, isactive=is_active)
+		topwindow.signal_childwindowactive.send(sender=self, isactive=is_active)
 
 		event.Skip()        # propagates event
 
@@ -81,7 +94,7 @@ class MrSecondFrame(wx.Frame):
 		topwindow = app.GetTopWindow()
 		if topwindow.activewindow is self:
 			topwindow.activewindow = None
-			topwindow._child_win_activated.send(sender=self, isactive=False)
+			topwindow.signal_childwindowactive.send(sender=self, isactive=False)
 
 		event.Skip()
 
